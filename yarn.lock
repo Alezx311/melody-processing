@@ -11300,7 +11300,7 @@ tempy@^0.3.0:
 
 teoria@^2.5.0:
   version "2.5.0"
-  resolved "https://registry.npmjs.org/teoria/-/teoria-2.5.0.tgz"
+  resolved "https://registry.yarnpkg.com/teoria/-/teoria-2.5.0.tgz#015e245d3094a60e84b2ee5ea9d58d795bf78ed5"
   integrity sha512-LdnDG2PKkYAdBWGBgqZS3POuwq3Kzwj4PBR4PzEsEQ8T/tGqwEoa++SLDxSx7mvsfYA2VirfJWSXhMcpuhquaQ==
   dependencies:
     daccord "^1.0.1"
