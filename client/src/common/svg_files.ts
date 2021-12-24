@@ -1,5 +1,5 @@
-export const SVG_FOLDER = '../svg'
-export const SVG_FILES = [
+export const BLISS_FOLDER = '../svg'
+export const BLISS_FILES = [
 	'a,an,any.svg',
 	'ability,capability,capacity,potential.svg',
 	'ability_(half_sized).svg',

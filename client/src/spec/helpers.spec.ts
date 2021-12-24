@@ -1,4 +1,4 @@
-import { Description, Formatter, Helpers } from '../common/helpers'
+import { Description, Formatter, HelpersMusic } from '../common/helpers'
 
 describe('Description', () => {
 	it('Is Defined', () => {
@@ -53,261 +53,261 @@ describe('Formatter', () => {
 
 describe('Helpers', () => {
 	it('Is Defined', () => {
-		expect(Helpers).toBeDefined()
+		expect(HelpersMusic).toBeDefined()
 	})
 
 	it('arr', () => {
-		expect(Helpers.arr).toBeDefined()
+		expect(HelpersMusic.arr).toBeDefined()
 	})
 	it('val', () => {
-		expect(Helpers.val).toBeDefined()
+		expect(HelpersMusic.val).toBeDefined()
 	})
 	it('flt', () => {
-		expect(Helpers.flt).toBeDefined()
+		expect(HelpersMusic.flt).toBeDefined()
 	})
 	it('int', () => {
-		expect(Helpers.int).toBeDefined()
+		expect(HelpersMusic.int).toBeDefined()
 	})
 	it('min', () => {
-		expect(Helpers.min).toBeDefined()
+		expect(HelpersMusic.min).toBeDefined()
 	})
 	it('max', () => {
-		expect(Helpers.max).toBeDefined()
+		expect(HelpersMusic.max).toBeDefined()
 	})
 	it('diff', () => {
-		expect(Helpers.diff).toBeDefined()
+		expect(HelpersMusic.diff).toBeDefined()
 	})
 	it('last', () => {
-		expect(Helpers.last).toBeDefined()
+		expect(HelpersMusic.last).toBeDefined()
 	})
 	it('ind', () => {
-		expect(Helpers.ind).toBeDefined()
+		expect(HelpersMusic.ind).toBeDefined()
 	})
 	it('el', () => {
-		expect(Helpers.el).toBeDefined()
+		expect(HelpersMusic.el).toBeDefined()
 	})
 	it('shuffle', () => {
-		expect(Helpers.shuffle).toBeDefined()
+		expect(HelpersMusic.shuffle).toBeDefined()
 	})
 	it('part', () => {
-		expect(Helpers.part).toBeDefined()
+		expect(HelpersMusic.part).toBeDefined()
 	})
 	it('arrLike', () => {
-		expect(Helpers.arrLike).toBeDefined()
+		expect(HelpersMusic.arrLike).toBeDefined()
 	})
 	it('reduceVal', () => {
-		expect(Helpers.reduceVal).toBeDefined()
+		expect(HelpersMusic.reduceVal).toBeDefined()
 	})
 	it('reduceArr', () => {
-		expect(Helpers.reduceArr).toBeDefined()
+		expect(HelpersMusic.reduceArr).toBeDefined()
 	})
 	it('grow', () => {
-		expect(Helpers.grow).toBeDefined()
+		expect(HelpersMusic.grow).toBeDefined()
 	})
 	it('sequence', () => {
-		expect(Helpers.sequence).toBeDefined()
+		expect(HelpersMusic.sequence).toBeDefined()
 	})
 	it('merge', () => {
-		expect(Helpers.merge).toBeDefined()
+		expect(HelpersMusic.merge).toBeDefined()
 	})
 	it('double', () => {
-		expect(Helpers.double).toBeDefined()
+		expect(HelpersMusic.double).toBeDefined()
 	})
 	it('or', () => {
-		expect(Helpers.or).toBeDefined()
+		expect(HelpersMusic.or).toBeDefined()
 	})
 	it('repeats', () => {
-		expect(Helpers.repeats).toBeDefined()
+		expect(HelpersMusic.repeats).toBeDefined()
 	})
 	it('unicals', () => {
-		expect(Helpers.unicals).toBeDefined()
+		expect(HelpersMusic.unicals).toBeDefined()
 	})
 	it('condition', () => {
-		expect(Helpers.condition).toBeDefined()
+		expect(HelpersMusic.condition).toBeDefined()
 	})
 	it('shuffles', () => {
-		expect(Helpers.shuffles).toBeDefined()
+		expect(HelpersMusic.shuffles).toBeDefined()
 	})
 	it('shuffleunicals', () => {
-		expect(Helpers.shuffleunicals).toBeDefined()
+		expect(HelpersMusic.shuffleunicals).toBeDefined()
 	})
 	it('doublesome', () => {
-		expect(Helpers.doublesome).toBeDefined()
+		expect(HelpersMusic.doublesome).toBeDefined()
 	})
 	it('range', () => {
-		expect(Helpers.range).toBeDefined()
+		expect(HelpersMusic.range).toBeDefined()
 	})
 	it('boolean', () => {
-		expect(Helpers.boolean).toBeDefined()
+		expect(HelpersMusic.boolean).toBeDefined()
 	})
 	it('powerOfTwo', () => {
-		expect(Helpers.powerOfTwo).toBeDefined()
+		expect(HelpersMusic.powerOfTwo).toBeDefined()
 	})
 	it('values', () => {
-		expect(Helpers.values).toBeDefined()
+		expect(HelpersMusic.values).toBeDefined()
 	})
 	it('objK', () => {
-		expect(Helpers.objK).toBeDefined()
+		expect(HelpersMusic.objK).toBeDefined()
 	})
 	it('objV', () => {
-		expect(Helpers.objV).toBeDefined()
+		expect(HelpersMusic.objV).toBeDefined()
 	})
 	it('objE', () => {
-		expect(Helpers.objE).toBeDefined()
+		expect(HelpersMusic.objE).toBeDefined()
 	})
 	it('get v', () => {
-		expect(Helpers.v).toBeDefined()
+		expect(HelpersMusic.v).toBeDefined()
 	})
 
 	it('get i', () => {
-		expect(Helpers.i).toBeDefined()
+		expect(HelpersMusic.i).toBeDefined()
 	})
 
 	it('get i10', () => {
-		expect(Helpers.i10).toBeDefined()
+		expect(HelpersMusic.i10).toBeDefined()
 	})
 
 	it('get i100', () => {
-		expect(Helpers.i100).toBeDefined()
+		expect(HelpersMusic.i100).toBeDefined()
 	})
 
 	it('get i1000', () => {
-		expect(Helpers.i1000).toBeDefined()
+		expect(HelpersMusic.i1000).toBeDefined()
 	})
 
 	it('get b', () => {
-		expect(Helpers.b).toBeDefined()
+		expect(HelpersMusic.b).toBeDefined()
 	})
 
 	it('get s', () => {
-		expect(Helpers.s).toBeDefined()
+		expect(HelpersMusic.s).toBeDefined()
 	})
 
 	it('get a', () => {
-		expect(Helpers.a).toBeDefined()
+		expect(HelpersMusic.a).toBeDefined()
 	})
 
 	it('get _noteBasic', () => {
-		expect(Helpers._noteBasic).toBeDefined()
+		expect(HelpersMusic._noteBasic).toBeDefined()
 	})
 	it('get _noteChar', () => {
-		expect(Helpers._noteChar).toBeDefined()
+		expect(HelpersMusic._noteChar).toBeDefined()
 	})
 	it('get _scale', () => {
-		expect(Helpers._scale).toBeDefined()
+		expect(HelpersMusic._scale).toBeDefined()
 	})
 	it('get _durationChar', () => {
-		expect(Helpers._durationChar).toBeDefined()
+		expect(HelpersMusic._durationChar).toBeDefined()
 	})
 	it('get _duration', () => {
-		expect(Helpers._duration).toBeDefined()
+		expect(HelpersMusic._duration).toBeDefined()
 	})
 	it('get _intervalChar', () => {
-		expect(Helpers._intervalChar).toBeDefined()
+		expect(HelpersMusic._intervalChar).toBeDefined()
 	})
 	it('get _synth', () => {
-		expect(Helpers._synth).toBeDefined()
+		expect(HelpersMusic._synth).toBeDefined()
 	})
 	it('get _tuningName', () => {
-		expect(Helpers._tuningName).toBeDefined()
+		expect(HelpersMusic._tuningName).toBeDefined()
 	})
 	it('get _tuningValue', () => {
-		expect(Helpers._tuningValue).toBeDefined()
+		expect(HelpersMusic._tuningValue).toBeDefined()
 	})
 	it('get _colorName', () => {
-		expect(Helpers._colorName).toBeDefined()
+		expect(HelpersMusic._colorName).toBeDefined()
 	})
 	it('get _colorCode', () => {
-		expect(Helpers._colorCode).toBeDefined()
+		expect(HelpersMusic._colorCode).toBeDefined()
 	})
 	it('get _colorClass', () => {
-		expect(Helpers._colorClass).toBeDefined()
+		expect(HelpersMusic._colorClass).toBeDefined()
 	})
 	it('get _values', () => {
-		expect(Helpers._values).toBeDefined()
+		expect(HelpersMusic._values).toBeDefined()
 	})
 	it('get _octave', () => {
-		expect(Helpers._octave).toBeDefined()
+		expect(HelpersMusic._octave).toBeDefined()
 	})
 	it('get _note', () => {
-		expect(Helpers._note).toBeDefined()
+		expect(HelpersMusic._note).toBeDefined()
 	})
 	it('get _velocity', () => {
-		expect(Helpers._velocity).toBeDefined()
+		expect(HelpersMusic._velocity).toBeDefined()
 	})
 	it('get _noteValues', () => {
-		expect(Helpers._noteValues).toBeDefined()
+		expect(HelpersMusic._noteValues).toBeDefined()
 	})
 	it('get getNote', () => {
-		expect(Helpers.getNote).toBeDefined()
+		expect(HelpersMusic.getNote).toBeDefined()
 	})
 	it('get getScale', () => {
-		expect(Helpers.getScale).toBeDefined()
+		expect(HelpersMusic.getScale).toBeDefined()
 	})
 	it('get getMelody', () => {
-		expect(Helpers.getMelody).toBeDefined()
+		expect(HelpersMusic.getMelody).toBeDefined()
 	})
 	it('octave', () => {
-		expect(Helpers.octave).toBeDefined()
+		expect(HelpersMusic.octave).toBeDefined()
 	})
 	it('note', () => {
-		expect(Helpers.note).toBeDefined()
+		expect(HelpersMusic.note).toBeDefined()
 	})
 	it('notes', () => {
-		expect(Helpers.notes).toBeDefined()
+		expect(HelpersMusic.notes).toBeDefined()
 	})
 	it('noteValues', () => {
-		expect(Helpers.noteValues).toBeDefined()
+		expect(HelpersMusic.noteValues).toBeDefined()
 	})
 	it('noteParse', () => {
-		expect(Helpers.noteParse).toBeDefined()
+		expect(HelpersMusic.noteParse).toBeDefined()
 	})
 	it('parseNoteChar', () => {
-		expect(Helpers.parseNoteChar).toBeDefined()
+		expect(HelpersMusic.parseNoteChar).toBeDefined()
 	})
 	it('noteIndex', () => {
-		expect(Helpers.noteIndex).toBeDefined()
+		expect(HelpersMusic.noteIndex).toBeDefined()
 	})
 	it('noteStep', () => {
-		expect(Helpers.noteStep).toBeDefined()
+		expect(HelpersMusic.noteStep).toBeDefined()
 	})
 	it('noteOrMany', () => {
-		expect(Helpers.noteOrMany).toBeDefined()
+		expect(HelpersMusic.noteOrMany).toBeDefined()
 	})
 	it('noteSteps', () => {
-		expect(Helpers.noteSteps).toBeDefined()
+		expect(HelpersMusic.noteSteps).toBeDefined()
 	})
 	it('rhythmValues', () => {
-		expect(Helpers.rhythmValues).toBeDefined()
+		expect(HelpersMusic.rhythmValues).toBeDefined()
 	})
 	it('rhythmNotes', () => {
-		expect(Helpers.rhythmNotes).toBeDefined()
+		expect(HelpersMusic.rhythmNotes).toBeDefined()
 	})
 	it('styleColorGradient', () => {
-		expect(Helpers.styleColorGradient).toBeDefined()
+		expect(HelpersMusic.styleColorGradient).toBeDefined()
 	})
 	it('styleBackgroundGradient', () => {
-		expect(Helpers.styleBackgroundGradient).toBeDefined()
+		expect(HelpersMusic.styleBackgroundGradient).toBeDefined()
 	})
 	it('getNote', () => {
-		expect(Helpers.getNote).toBeDefined()
+		expect(HelpersMusic.getNote).toBeDefined()
 	})
 	it('getScale', () => {
-		expect(Helpers.getScale).toBeDefined()
+		expect(HelpersMusic.getScale).toBeDefined()
 	})
 	it('getMelody', () => {
-		expect(Helpers.getMelody).toBeDefined()
+		expect(HelpersMusic.getMelody).toBeDefined()
 	})
 	it('synth', () => {
-		expect(Helpers.synth).toBeDefined()
+		expect(HelpersMusic.synth).toBeDefined()
 	})
 	it('playOne', () => {
-		expect(Helpers.playOne).toBeDefined()
+		expect(HelpersMusic.playOne).toBeDefined()
 	})
 	it('play', () => {
-		expect(Helpers.play).toBeDefined()
+		expect(HelpersMusic.play).toBeDefined()
 	})
 	it('stop', () => {
-		expect(Helpers.stop).toBeDefined()
+		expect(HelpersMusic.stop).toBeDefined()
 	})
 })

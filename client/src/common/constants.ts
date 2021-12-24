@@ -1,5 +1,6 @@
 import { COLOR_CLASS, COLOR_CODES, COLOR_NAMES } from './color.constants'
 import { DESCRIPTION } from './enums'
+import { tSynth } from './helpers'
 import {
 	DURATIONS,
 	DURATION_CHARS,
@@ -14,75 +15,184 @@ import {
 	TUNING_NAMES,
 	TUNING_VALUES,
 } from './music.constants'
-import { _a, _entries, _fromE, _n, _now, _values } from './shortcuts'
-import { SVG_FILES, SVG_FOLDER } from './svg_files'
-import { A, B, N, O, S, tSvgFile } from './types'
-export class Defaults {
-	static _val = null
-	static _bln: B = false
-	static _num: N = 0
-	static _str: S = ''
-	static _arr: A = []
-	static _obj: O = {}
-	static falsy = [null, undefined, this._bln, this._num, this._str]
-	static val = false
-	static bln: B = true
-	static num: N = 1
-	static str: S = DESCRIPTION.MESSAGE
-	static arr: A = [true]
-	static obj: O = { some: 'value' }
-	static truthy = [this.bln, this.num, this.str, this.arr, this.obj]
-	static func = (): null => null
+import { INSTRUMENT_SAMPLES } from './samples'
+import { Primitives, _keys, _min, _n, _now, _val } from './shortcuts'
+import { BLISS_FILES, BLISS_FOLDER } from './svg_files'
+import {
+	A,
+	B,
+	N,
+	O,
+	S,
+	tBlissFile,
+	tColorNames,
+	tDuration,
+	tDurationChar,
+	tDurationValue,
+	tGuitarFrets,
+	tGuitarStrings,
+	tInstrumentName,
+	tMelodyPartSize,
+	tMelodySize,
+	tNote,
+	tNoteChar,
+	tNoteValues,
+	tOctave,
+	tScale,
+	tSynthName,
+	tTuningName,
+} from './types'
+
+export class Defaults extends Primitives {
+	static falsyV: any = null
+	static falsyB: B = false
+	static falsyN: N = 0
+	static falsyS: S = ''
+	static falsyA: A = []
+	static falsyO: O = {}
+	static falsy = [this.NULL, this.UND, this.falsyB, this.falsyN, this.falsyS]
+
+	static truthyB: B = true
+	static truthyN: N = 1
+	static truthyS: S = DESCRIPTION.MESSAGE
+	static truthyA: A = [true]
+	static truthyO: O = { some: 'value' }
+	static truthy = [this.truthyB, this.truthyN, this.truthyS, this.truthyA, this.truthyO]
+
+	static v = null
+
 	static time = _now()
 	static date = new Date().toUTCString()
-	static zero = 0
-	static intMin = 1
-	static int42 = 42
-	static rangeMin = 0
-	static rangeMax = 100
-	static floatMin = 0.01
-	static floatMax = 0.99
-	static floatLength = 2
-	static intMax = _n.MAX_SAFE_INTEGER
-	static range: [N, N] = [this.rangeMin, this.rangeMax]
-	static state = {
-		word: '',
-		words: [],
-		color: '#fff',
-		content: [],
-		strings: 6,
-		frets: 24,
-		tuning: 'E Standart',
-		rootNote: 'C4',
-		scale: 'minor',
-		size: 500,
-		riff: [],
-		synth: false,
-		synthName: 'PolySynth',
-		instrumentName: '',
-		isPlaying: false,
-		valueOnPlay: {},
-	}
-}
 
-export class Value extends Defaults {
+	static int_0 = 0
+	static int_1 = 1
+	static int_42 = 42
+
+	static rangeInt: [N, N] = [1, 100]
+	static minInt = _min(...this.rangeInt)
+	static maxInt = _min(...this.rangeInt)
+
+	static rangeFloat: [N, N] = [0.01, 0.99]
+	static minFloat = 0.01
+	static maxFloat = 0.99
+
+	static rangeSafe = [_n.MIN_SAFE_INTEGER, _n.MAX_SAFE_INTEGER]
+	static rangeValue = [_n.MIN_VALUE, _n.MAX_VALUE]
+
+	static toFixedLength = 2
+
+	static noteCharDefault: tNoteChar = 'C'
+	static noteOctaveDefault: tOctave = 4
+	static noteDefault: tNote = `${this.noteCharDefault}${this.noteOctaveDefault}`
+	static durationValueDefault: tDurationValue = 4
+	static durationCharDefault: tDurationChar = 'n'
+	static durationDefault: tDuration = `${this.durationValueDefault}${this.durationCharDefault}`
+	static velocityDefault: N = 1
+	static noteValuesDefault: tNoteValues = {
+		char: this.noteCharDefault,
+		octave: this.noteOctaveDefault,
+		note: this.noteDefault,
+		duration: this.durationDefault,
+		velocity: this.velocityDefault,
+	}
+
+	static synthNameDefault: tSynthName = 'Synth'
+	static bpmDefault: N = 120
+	static humanizeDefault: B = true
+	static noteMidiDefault?: N = undefined
+	static sustainDefault?: N = undefined
+	static attackDefault?: N = undefined
+	static decayDefault?: N = undefined
+	static releaseDefault?: N = undefined
+	static frequencyDefault?: N = undefined
+
+	static word: S = 'Empty'
+	static words: S[] = [this.word]
+	static color: tColorNames = 'green'
+	static strings: tGuitarStrings = 6
+	static frets: tGuitarFrets = 24
+	static tuning: tTuningName = 'E Standart'
+	static rootNote: tNote = 'C4'
+	static scale: tScale = 'minor'
+	static size: tMelodySize = 80
+	static sizeOfEachPart: tMelodyPartSize = 4
+	static sizeOfTotalParts: tMelodyPartSize = 4
+	static riff: tNoteValues[] = []
+	static synthName: tSynthName = 'Synth'
+	static instrumentName: tInstrumentName = 'piano'
+	static synth: tSynth | null = null
+	static instrument: any = null
+	static isPlaying: B = false
+	static valueOnPlay: tNoteValues | null = null
+
+	static stateDefault = {
+		word: this.word,
+		words: this.words,
+		color: this.color,
+		strings: this.strings,
+		frets: this.frets,
+		tuning: this.tuning,
+		rootNote: this.rootNote,
+		scale: this.scale,
+		size: this.size,
+		sizeOfEachPart: this.sizeOfEachPart,
+		sizeOfTotalParts: this.sizeOfTotalParts,
+		riff: this.riff,
+		synthName: this.synthName,
+		instrumentName: this.instrumentName,
+		synth: this.synth,
+		instrument: this.instrument,
+		isPlaying: this.isPlaying,
+		valueOnPlay: this.valueOnPlay,
+	}
+
+	static TO_NOTE = (str: S) => str.replace('s', '#')
+	static TO_FOLDER = (str: S) => str.replace('-', '-').toLowerCase()
+	static TO_ID = (str: S) => str.replace('-', '_').toUpperCase()
+	static TO_DIRPATH = (str: S) => `${this.INSTRUMENT_FOLDER}/${str}`
+	static TO_PATH = (iFile: S, iName: S) => `${this.INSTRUMENT_FOLDER}/${this.TO_FOLDER(iName)}${iFile}`
+	static TO_FILE = (str: S) => `${str}.[wav|mp3|ogg]`
+	static TO_INFO = (value: S) => ({
+		value,
+		note: this.TO_NOTE(value),
+		folder: this.TO_FOLDER(value),
+		id: this.TO_ID(value),
+		path: this.TO_PATH(value, this.instrumentName),
+		file: this.TO_FILE(value),
+	})
+
+	static INSTRUMENT_FOLDER = '../samples'
+	static INSTRUMENT_SOURCE = INSTRUMENT_SAMPLES
+	static INSTRUMENT_KEYS = [..._keys(this.INSTRUMENT_SOURCE)] as const
+	static INSTRUMENT_VALUES = [..._val(this.INSTRUMENT_SOURCE).reduce((acc, arr) => [...acc, ...arr], [])] as const
+	static INSTRUMENT_SHARED = [...new Set([...this.INSTRUMENT_VALUES])] as const
+	static INSTRUMENT_IDS = [...this.INSTRUMENT_KEYS.map(v => this.TO_ID(v))] as const
+	static INSTRUMENT_NOTES = [...this.INSTRUMENT_VALUES.map(v => this.TO_NOTE(v))] as const
+	static INSTRUMENT_FILES = [...this.INSTRUMENT_VALUES.map(v => this.TO_FILE(v))] as const
+	static INSTRUMENT_FOLDERS = [...this.INSTRUMENT_KEYS.map(v => this.TO_DIRPATH(v))] as const
+
 	static COLOR_CLASS = [...COLOR_CLASS]
 	static COLOR_NAMES = [...COLOR_NAMES]
 	static COLOR_CODES = [...COLOR_CODES]
 	static COLOR_VALUES = { COLOR_CLASS, COLOR_NAMES, COLOR_CODES }
 
-	static SVG_ICON = (file: tSvgFile, ind: N) => ({ file, ind, src: this.SVG_PATHS[ind], word: this.SVG_WORDS[ind] })
-	static SVG_FOLDER = SVG_FOLDER
-	static SVG_FILES = [...SVG_FILES]
-	static SVG_WORDS = this.SVG_FILES.map(s => s.replace(/\.svg$/i, ''))
-	static SVG_PATHS = this.SVG_FILES.map(s => `${this.SVG_FOLDER}/${s}`)
-	static SVG_ICONS = this.SVG_FILES.map(this.SVG_ICON)
-	static SVG_VALUES = {
-		SVG_FOLDER: this.SVG_FOLDER,
-		SVG_FILES: this.SVG_FILES,
-		SVG_WORDS: this.SVG_WORDS,
-		SVG_PATHS: this.SVG_PATHS,
-		SVG_ICONS: this.SVG_ICONS,
+	static BLISS_ICON = (file: tBlissFile, ind: N) => ({
+		file,
+		ind,
+		src: this.BLISS_PATHS[ind],
+		word: this.BLISS_WORDS[ind],
+	})
+	static BLISS_FOLDER = BLISS_FOLDER
+	static BLISS_FILES = [...BLISS_FILES] as const
+	static BLISS_WORDS = this.BLISS_FILES.map(s => s.replace(/\.svg$/i, ''))
+	static BLISS_PATHS = this.BLISS_FILES.map(s => `${this.BLISS_FOLDER}/${s}`)
+	static BLISS_ICONS = this.BLISS_FILES.map(this.BLISS_ICON)
+	static BLISS_VALUES = {
+		BLISS_FOLDER: this.BLISS_FOLDER,
+		BLISS_FILES: this.BLISS_FILES,
+		BLISS_WORDS: this.BLISS_WORDS,
+		BLISS_PATHS: this.BLISS_PATHS,
+		BLISS_ICONS: this.BLISS_ICONS,
 	}
 
 	static MUSIC_GUITAR_TUNINGS = { ...GUITAR_TUNINGS }
@@ -114,7 +224,7 @@ export class Value extends Defaults {
 	}
 
 	static TOTAL = {
-		SVG_FILES: ~~SVG_FILES?.length,
+		BLISS_FILES: ~~BLISS_FILES?.length,
 		COLOR_CLASS: ~~COLOR_CLASS?.length,
 		COLOR_NAMES: ~~COLOR_NAMES?.length,
 		COLOR_CODES: ~~COLOR_CODES?.length,

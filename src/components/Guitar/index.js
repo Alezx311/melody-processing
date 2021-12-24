@@ -1,38 +1,57 @@
-import React from 'react';
-import * as Tone from 'tone';
-import { GUITAR_TUNINGS, TUNING_NAMES, NOTES, SCALES, INSTRUMENTS, SVG_WORDS, SVG_FOLDER } from '../constants';
-import { Random, Note } from '../helpers';
-import { Box, Button, Card, DropButton, TableRow } from 'grommet';
-import { ReactJsonCute } from './Cute';
+import React from "react";
+import * as Tone from "tone";
+import {
+  GUITAR_TUNINGS,
+  TUNING_NAMES,
+  NOTES,
+  SCALES,
+  INSTRUMENTS,
+  BLISS_WORDS,
+  BLISS_FOLDER,
+} from "../constants";
+import { Random, Note } from "../helpers";
+import { Box, Button, Card, DropButton, TableRow } from "grommet";
+import { ReactJsonCute } from "./Cute";
 
 let synth;
 
 const DropSelect = ({ label, value, options, onClick }) => {
-  const dropContent = options.map((v) => <Button key={v} label={v} onClick={() => onClick(v)} />);
-  const dropAlign = { top: 'bottom', right: 'right' };
+  const dropContent = options.map((v) => (
+    <Button key={v} label={v} onClick={() => onClick(v)} />
+  ));
+  const dropAlign = { top: "bottom", right: "right" };
 
-  return <DropButton label={`${label}: ${value}`} dropAlign={dropAlign} dropContent={dropContent} />;
+  return (
+    <DropButton
+      label={`${label}: ${value}`}
+      dropAlign={dropAlign}
+      dropContent={dropContent}
+    />
+  );
 };
 
 export const Guitar = (props) => {
   const { state, reducer } = props;
   const opened = GUITAR_TUNINGS[state.tuning];
   const octaved = opened.map((v) => Random.noteStep(v, 12));
-  const stringNotes = [...opened, ...octaved].filter((v, i) => i < state.strings).reverse();
+  const stringNotes = [...opened, ...octaved]
+    .filter((v, i) => i < state.strings)
+    .reverse();
 
   const ContentView = () => {
     return (
       <Card>
-        <ReactJsonCute src={{ content: state.content, valueOnPlay: state.valueOnPlay }} />
+        <ReactJsonCute
+          src={{ content: state.content, valueOnPlay: state.valueOnPlay }}
+        />
       </Card>
     );
   };
 
   const setInstrument = (instrument) => {
-    const urlEntries = Object.entries(INSTRUMENTS[instrument]).map(([key, val]) => [
-      key,
-      `/samples/${instrument}/${val}`,
-    ]);
+    const urlEntries = Object.entries(INSTRUMENTS[instrument]).map(
+      ([key, val]) => [key, `/samples/${instrument}/${val}`]
+    );
     const samples = Object.fromEntries(urlEntries);
     synth = new Tone.Sampler(samples).toDestination();
     reducer({ synthName: null, instrumentName: instrument });
@@ -47,18 +66,20 @@ export const Guitar = (props) => {
 
   const Fretboard = () =>
     stringNotes.map((open) => (
-      <Box key={open} direction='row' gap='small'>
+      <Box key={open} direction="row" gap="small">
         {Random.noteSteps(open, state.frets).map((note) => (
           <Button
             key={note}
-            size='small'
+            size="small"
             label={note}
             style={
-              state?.valueOnPlay?.note?.includes(note) ? { backgroundColor: 'green' } : { backgroundColor: 'gray' }
+              state?.valueOnPlay?.note?.includes(note)
+                ? { backgroundColor: "green" }
+                : { backgroundColor: "gray" }
             }
             onClick={() => {
               reducer({ rootNote: note });
-              synth.triggerAttackRelease(note, '4n');
+              synth.triggerAttackRelease(note, "4n");
             }}
           />
         ))}
@@ -78,7 +99,7 @@ export const Guitar = (props) => {
         <tr>
           {src.map((word) => (
             <td key={`image_${word}`}>
-              <SvgImage src={`${SVG_FOLDER}/${word}.svg`} />
+              <SvgImage src={`${BLISS_FOLDER}/${word}.svg`} />
             </td>
           ))}
         </tr>
@@ -88,7 +109,7 @@ export const Guitar = (props) => {
 
   const RiffView = () => (
     <Box>
-      <SvgImage src={`${SVG_FOLDER}/${state.word}.svg`} />
+      <SvgImage src={`${BLISS_FOLDER}/${state.word}.svg`} />
       <BlissWords src={state.words} />
       <ReactJsonCute src={state.valueOnPlay} />
     </Box>
@@ -97,7 +118,12 @@ export const Guitar = (props) => {
   const SvgImage = ({ src, ...props }) => {
     return (
       <img
-        style={{ width: '100px', height: '100px', backgroundColor: state?.color ?? '#000', borderRadius: '25%' }}
+        style={{
+          width: "100px",
+          height: "100px",
+          backgroundColor: state?.color ?? "#000",
+          borderRadius: "25%",
+        }}
         src={src}
         alt={src}
         {...props}
@@ -115,19 +141,31 @@ export const Guitar = (props) => {
 
       const notes = state.riff.map((v) => Random.noteValues(v));
 
-      new Tone.Sequence((time = Tone.now(), { note, duration = Random.duration(), velocity }) => {
-        const color = Random.colorHex();
-        const word = Random.arrayElement(SVG_WORDS);
-        const words = Array(5)
-          .fill(1)
-          .map((v) => Random.arrayElement(SVG_WORDS));
+      new Tone.Sequence(
+        (
+          time = Tone.now(),
+          { note, duration = Random.duration(), velocity }
+        ) => {
+          const color = Random.colorHex();
+          const word = Random.arrayElement(BLISS_WORDS);
+          const words = Array(5)
+            .fill(1)
+            .map((v) => Random.arrayElement(BLISS_WORDS));
 
-        reducer({ word, words, color, valueOnPlay: { note, duration, velocity }, isPlaying: true });
-        synth.triggerAttackRelease(note, duration, time, velocity);
-      }, notes).start(1);
+          reducer({
+            word,
+            words,
+            color,
+            valueOnPlay: { note, duration, velocity },
+            isPlaying: true,
+          });
+          synth.triggerAttackRelease(note, duration, time, velocity);
+        },
+        notes
+      ).start(1);
 
       Tone.Transport.set(playOptions);
-      Tone.Transport.start('+0.1');
+      Tone.Transport.start("+0.1");
     };
 
     const onStop = () => {
@@ -137,8 +175,8 @@ export const Guitar = (props) => {
 
     return (
       <div>
-        <Button disabled={state.isPlaying} label='Play' onClick={onPlay} />
-        <Button disabled={!state.isPlaying} label='Stop' onClick={onStop} />
+        <Button disabled={state.isPlaying} label="Play" onClick={onPlay} />
+        <Button disabled={!state.isPlaying} label="Stop" onClick={onStop} />
       </div>
     );
   };
@@ -146,28 +184,48 @@ export const Guitar = (props) => {
   const SetupFretboard = () => (
     <div>
       <DropSelect
-        label='Strings'
+        label="Strings"
         value={state.strings}
         options={[4, 5, 6, 7, 8]}
         onClick={(v) => reducer({ strings: v })}
       />
-      <DropSelect label='Frets' value={state.frets} options={[12, 21, 24]} onClick={(v) => reducer({ frets: v })} />
-      <DropSelect label='Tuning' value={state.tuning} options={TUNING_NAMES} onClick={(v) => reducer({ tuning: v })} />
+      <DropSelect
+        label="Frets"
+        value={state.frets}
+        options={[12, 21, 24]}
+        onClick={(v) => reducer({ frets: v })}
+      />
+      <DropSelect
+        label="Tuning"
+        value={state.tuning}
+        options={TUNING_NAMES}
+        onClick={(v) => reducer({ tuning: v })}
+      />
     </div>
   );
 
   const SetupRiff = () => (
     <div>
-      <DropSelect label='Root Note' value={state.rootNote} options={NOTES} onClick={(v) => reducer({ rootNote: v })} />
-      <DropSelect label='Scale' value={state?.scale} options={SCALES} onClick={(v) => reducer({ scale: v })} />
       <DropSelect
-        label='Melody Size'
+        label="Root Note"
+        value={state.rootNote}
+        options={NOTES}
+        onClick={(v) => reducer({ rootNote: v })}
+      />
+      <DropSelect
+        label="Scale"
+        value={state?.scale}
+        options={SCALES}
+        onClick={(v) => reducer({ scale: v })}
+      />
+      <DropSelect
+        label="Melody Size"
         value={state.size}
         options={[10, 20, 50, 100, 200]}
         onClick={(v) => reducer({ size: v })}
       />
       <DropSelect
-        label='Sound Instrument'
+        label="Sound Instrument"
         value={state?.instrumentName}
         options={Object.keys(INSTRUMENTS)}
         onClick={setInstrument}
@@ -177,12 +235,16 @@ export const Guitar = (props) => {
 
   const SetupButtons = () => (
     <div>
-      <Button disabled={!state.rootNote} label='Generate Riff' onClick={generateRiff} />
+      <Button
+        disabled={!state.rootNote}
+        label="Generate Riff"
+        onClick={generateRiff}
+      />
     </div>
   );
 
   const SetupGuitar = () => (
-    <Box direction='row' align='center' gap='medium'>
+    <Box direction="row" align="center" gap="medium">
       <SetupFretboard />
       <SetupRiff />
       <SetupButtons />
@@ -193,7 +255,7 @@ export const Guitar = (props) => {
   // generateRiff();
 
   return (
-    <Box direction='column' align='center' gap='medium'>
+    <Box direction="column" align="center" gap="medium">
       <SetupGuitar />
       <Fretboard />
       <RiffPlay />
