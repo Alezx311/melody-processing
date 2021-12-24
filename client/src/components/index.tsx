@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
-
-import { Guitar } from './Guitar'
 import { Box } from 'grommet'
-import { Value } from '../common/constants'
-import { HelpersRandom, tState } from '../common/helpers'
+import React, { useState } from 'react'
+import { Defaults } from '../common/constants'
+import { Helpers } from '../common/helpers'
+import { tState } from '../common/types'
+import { Guitar } from './Guitar'
 
 export const Main = () => {
-	const [state, setState] = useState(Value.state)
-	const [background, setBackground] = useState(HelpersMusic.styleBackgroundGradient())
+	const [state, setState] = useState(Defaults.state)
+	const [background, setBackground] = useState(Helpers.styleBackgroundGradient)
 
 	const reducer = (obj: tState) => {
 		setState({ ...state, ...obj })
-		setBackground(HelpersRandom.styleBackgroundGradient())
+		setBackground(Helpers.styleBackgroundGradient)
 	}
 
 	return (

@@ -377,4 +377,4 @@ export const INSTRUMENT_SAMPLES = {
 	tuba: ['As1', 'As2', 'D2', 'D3', 'Ds1', 'F0', 'F1', 'F2', 'As0'],
 	violin: ['A3', 'A4', 'A5', 'A6', 'C4', 'C5', 'C6', 'C7', 'E4', 'E5', 'E6', 'G4', 'G5', 'G6'],
 	xylophone: ['C7', 'G3', 'G4', 'G5', 'G6', 'C4', 'C5', 'C6'],
-}
+} as const

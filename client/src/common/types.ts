@@ -1,6 +1,25 @@
 import { Defaults } from './constants'
+import { INSTRUMENT_SAMPLES } from './samples'
 
-//^ Aliases for defaults.
+import Tone, { PolySynthOptions } from 'tone'
+const {
+	state,
+	BLISS_FILES,
+	COLOR_CLASS,
+	COLOR_NAMES,
+	COLOR_CODES,
+	MUSIC_NOTES_BASIC,
+	MUSIC_NOTES_PRIMARY,
+	MUSIC_NOTES_ALT,
+	MUSIC_GUITAR_TUNINGS,
+	MUSIC_DURATIONS,
+	MUSIC_INTERVAL_CHARS,
+	MUSIC_NOTES,
+	MUSIC_SCALES,
+	MUSIC_DURATION_CHARS,
+} = Defaults
+
+//^ Aliases for
 export type Obj = Record<S, U>
 export type One = S | N | B
 
@@ -61,37 +80,36 @@ export type tGuitarStrings = 4 | 6 | 7 | 8
 export type tGuitarFrets = 21 | 24 | 27
 export type tOctave = '' | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 
-export type tState = typeof Defaults.stateDefault
+export type tState = typeof state
 
-export type tInstrumentKey = typeof Defaults.INSTRUMENT_KEYS[N]
-export type tInstrumentValue = typeof Defaults.INSTRUMENT_VALUES[N]
-export type tInstrumentShare = typeof Defaults.INSTRUMENT_SHARED[N]
-export type tInstrumentId = typeof Defaults.INSTRUMENT_IDS[N]
-export type tInstrumentNote = typeof Defaults.INSTRUMENT_NOTES[N]
-export type tInstrumentFile = typeof Defaults.INSTRUMENT_FILES[N]
-export type tInstrumentFolder = typeof Defaults.INSTRUMENT_FOLDERS[N]
-export type tInstrumentName = tInstrumentId | tInstrumentKey
+export type tTone = typeof Tone
+export type tToneKeys = keyof tTone
+// export type tSynth<T1 extends tSynthName = 'Synth'> = tTone[T1]
+export type tSynthPlayer<T1 extends tToneKeys & tSynthName> = tTone[T1]
+export type tInstrument = Pick<tTone, 'Sampler'>
 
-export type tBlissFile = typeof Defaults.BLISS_FILES[N]
-export type tBlissWord = typeof Defaults.BLISS_WORDS[N]
-export type tBlissPath = typeof Defaults.BLISS_PATHS[N]
-export type tBlissIcon = typeof Defaults.BLISS_ICONS[N]
-export type tColorClass = typeof Defaults.COLOR_CLASS[N]
-export type tColorNames = typeof Defaults.COLOR_NAMES[N]
-export type tColorCodes = typeof Defaults.COLOR_CODES[N]
-export type tNoteB = typeof Defaults.MUSIC_NOTES_BASIC[N]
-export type tNotePrimary = typeof Defaults.MUSIC_NOTES_PRIMARY[N]
-export type tNoteSecondary = typeof Defaults.MUSIC_NOTES_ALT[N]
-export type tNoteChar = typeof Defaults.MUSIC_NOTES[N]
-export type tScale = typeof Defaults.MUSIC_SCALES[N]
-export type tTuning = typeof Defaults.MUSIC_GUITAR_TUNINGS[keyof typeof Defaults.MUSIC_GUITAR_TUNINGS]
-export type tSynthName = typeof Defaults.MUSIC_SYNTHS[N]
-export type tTuningName = typeof Defaults.MUSIC_TUNING_NAMES[N]
-export type tDurationChar = typeof Defaults.MUSIC_DURATION_CHARS[N]
+export type tInstrumentSource = typeof INSTRUMENT_SAMPLES
+export type tInstrumentKey = keyof tInstrumentSource
+export type tInstrumentValue = tInstrumentSource[tInstrumentKey][N]
+export type tInstrumentName = tInstrumentKey
+
+export type tBlissFile = typeof BLISS_FILES[N]
+export type tBlissWord = StrLike<tBlissFile>
+export type tBlissPath = StrLike<tBlissFile>
+export type tBlissIcon = StrLike<tBlissFile>
+export type tColorClass = typeof COLOR_CLASS[N]
+export type tColorNames = typeof COLOR_NAMES[N]
+export type tColorCodes = typeof COLOR_CODES[N]
+export type tColor = tColorNames | tColorCodes
+
+export type tNoteB = typeof MUSIC_NOTES_BASIC[N]
+export type tNotePrimary = typeof MUSIC_NOTES_PRIMARY[N]
+export type tNoteSecondary = typeof MUSIC_NOTES_ALT[N]
+export type tTuning = typeof MUSIC_GUITAR_TUNINGS[tTuningName]
+
 export type tDurationValue = 2 | 4 | 8 | 16 | 32 | 64
-export type tDuration = typeof Defaults.MUSIC_DURATIONS[N] | StrLike<`${'' | tDurationValue}${tDurationChar}`>
-export type tInterval = typeof Defaults.MUSIC_INTERVAL_CHARS[N]
-export type tNote = StrLike<tNoteChar | `${tNoteChar}${tOctave}`>
+export type tDuration = typeof MUSIC_DURATIONS[N] | StrLike<`${'' | tDurationValue}${tDurationChar}`>
+export type tInterval = typeof MUSIC_INTERVAL_CHARS[N]
 export type tNoteValues = {
 	note: tNote
 	char: tNoteChar
@@ -99,3 +117,22 @@ export type tNoteValues = {
 	velocity?: N
 	duration?: tDuration
 }
+
+export type tNoteChar = typeof MUSIC_NOTES[N]
+export type tNote = StrLike<tNoteChar | `${tNoteChar}${tOctave}`>
+export type tScaleName = typeof MUSIC_SCALES[N]
+export type tTuningName = 'E Standart' | 'Drop D' | 'Drop C' | 'Drop B'
+export type tDurationChar = typeof MUSIC_DURATION_CHARS[N]
+export type tSynthName =
+	| 'AMSynth'
+	| 'FMSynth'
+	| 'DuoSynth'
+	| 'MembraneSynth'
+	| 'MetalSynth'
+	| 'MonoSynth'
+	| 'NoiseSynth'
+	| 'PluckSynth'
+	| 'PolySynth'
+	| 'Synth'
+
+export type tSynth = Tone.Synth | Tone.Sampler

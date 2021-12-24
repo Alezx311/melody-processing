@@ -1,6 +1,6 @@
 import fs from 'fs'
 import util from 'util'
-import { A, B, E, F, N, O, P, S, U, UND } from './types'
+import { A, B, E, F, N, O, P, S, UND } from './types'
 
 export const _sym = Symbol
 export const _big = BigInt

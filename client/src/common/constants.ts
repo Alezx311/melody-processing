@@ -1,15 +1,14 @@
 import { COLOR_CLASS, COLOR_CODES, COLOR_NAMES } from './color.constants'
 import { DESCRIPTION } from './enums'
-import { tSynth } from './helpers'
 import {
 	DURATIONS,
 	DURATION_CHARS,
 	GUITAR_TUNINGS,
 	INTERVAL_CHARS,
 	NOTES,
-	NOTES_ALT,
-	NOTES_BASIC,
+	NOTES_BEMOLE,
 	NOTES_PRIMARY,
+	NOTES_SHARP,
 	SCALES,
 	SYNTHS,
 	TUNING_NAMES,
@@ -38,7 +37,8 @@ import {
 	tNoteChar,
 	tNoteValues,
 	tOctave,
-	tScale,
+	tScaleName,
+	tSynth,
 	tSynthName,
 	tTuningName,
 } from './types'
@@ -81,30 +81,29 @@ export class Defaults extends Primitives {
 
 	static toFixedLength = 2
 
-	static noteCharDefault: tNoteChar = 'C'
-	static noteOctaveDefault: tOctave = 4
-	static noteDefault: tNote = `${this.noteCharDefault}${this.noteOctaveDefault}`
-	static durationValueDefault: tDurationValue = 4
-	static durationCharDefault: tDurationChar = 'n'
-	static durationDefault: tDuration = `${this.durationValueDefault}${this.durationCharDefault}`
-	static velocityDefault: N = 1
-	static noteValuesDefault: tNoteValues = {
-		char: this.noteCharDefault,
-		octave: this.noteOctaveDefault,
-		note: this.noteDefault,
-		duration: this.durationDefault,
-		velocity: this.velocityDefault,
+	static noteChar: tNoteChar = 'C'
+	static noteOctave: tOctave = 4
+	static note: tNote = `${this.noteChar}${this.noteOctave}`
+	static durationValue: tDurationValue = 4
+	static durationChar: tDurationChar = 'n'
+	static duration: tDuration = `${this.durationValue}${this.durationChar}`
+	static velocity: N = 1
+	static noteValues: tNoteValues = {
+		char: this.noteChar,
+		octave: this.noteOctave,
+		note: this.note,
+		duration: this.duration,
+		velocity: this.velocity,
 	}
 
-	static synthNameDefault: tSynthName = 'Synth'
-	static bpmDefault: N = 120
-	static humanizeDefault: B = true
-	static noteMidiDefault?: N = undefined
-	static sustainDefault?: N = undefined
-	static attackDefault?: N = undefined
-	static decayDefault?: N = undefined
-	static releaseDefault?: N = undefined
-	static frequencyDefault?: N = undefined
+	static bpm: N = 120
+	static humanize: B = true
+	static noteMidi?: N = undefined
+	static sustain?: N = undefined
+	static attack?: N = undefined
+	static decay?: N = undefined
+	static release?: N = undefined
+	static frequency?: N = undefined
 
 	static word: S = 'Empty'
 	static words: S[] = [this.word]
@@ -113,7 +112,7 @@ export class Defaults extends Primitives {
 	static frets: tGuitarFrets = 24
 	static tuning: tTuningName = 'E Standart'
 	static rootNote: tNote = 'C4'
-	static scale: tScale = 'minor'
+	static scale: tScaleName = 'minor'
 	static size: tMelodySize = 80
 	static sizeOfEachPart: tMelodyPartSize = 4
 	static sizeOfTotalParts: tMelodyPartSize = 4
@@ -121,11 +120,11 @@ export class Defaults extends Primitives {
 	static synthName: tSynthName = 'Synth'
 	static instrumentName: tInstrumentName = 'piano'
 	static synth: tSynth | null = null
-	static instrument: any = null
+	static instrument: keyof tSynth | null = null
 	static isPlaying: B = false
 	static valueOnPlay: tNoteValues | null = null
 
-	static stateDefault = {
+	static state = {
 		word: this.word,
 		words: this.words,
 		color: this.color,
@@ -163,13 +162,13 @@ export class Defaults extends Primitives {
 
 	static INSTRUMENT_FOLDER = '../samples'
 	static INSTRUMENT_SOURCE = INSTRUMENT_SAMPLES
-	static INSTRUMENT_KEYS = [..._keys(this.INSTRUMENT_SOURCE)] as const
-	static INSTRUMENT_VALUES = [..._val(this.INSTRUMENT_SOURCE).reduce((acc, arr) => [...acc, ...arr], [])] as const
-	static INSTRUMENT_SHARED = [...new Set([...this.INSTRUMENT_VALUES])] as const
-	static INSTRUMENT_IDS = [...this.INSTRUMENT_KEYS.map(v => this.TO_ID(v))] as const
-	static INSTRUMENT_NOTES = [...this.INSTRUMENT_VALUES.map(v => this.TO_NOTE(v))] as const
-	static INSTRUMENT_FILES = [...this.INSTRUMENT_VALUES.map(v => this.TO_FILE(v))] as const
-	static INSTRUMENT_FOLDERS = [...this.INSTRUMENT_KEYS.map(v => this.TO_DIRPATH(v))] as const
+	static INSTRUMENT_KEYS = _keys(this.INSTRUMENT_SOURCE)
+	static INSTRUMENT_VALUES = _val(this.INSTRUMENT_SOURCE).flat()
+	static INSTRUMENT_SHARED = [...new Set([...this.INSTRUMENT_VALUES])]
+	static INSTRUMENT_IDS = this.INSTRUMENT_KEYS.map(v => this.TO_ID(v))
+	static INSTRUMENT_NOTES = this.INSTRUMENT_SHARED.map(v => this.TO_NOTE(v))
+	static INSTRUMENT_FILES = this.INSTRUMENT_SHARED.map(v => this.TO_FILE(v))
+	static INSTRUMENT_FOLDERS = this.INSTRUMENT_KEYS.map(v => this.TO_DIRPATH(v))
 
 	static COLOR_CLASS = [...COLOR_CLASS]
 	static COLOR_NAMES = [...COLOR_NAMES]
@@ -183,7 +182,7 @@ export class Defaults extends Primitives {
 		word: this.BLISS_WORDS[ind],
 	})
 	static BLISS_FOLDER = BLISS_FOLDER
-	static BLISS_FILES = [...BLISS_FILES] as const
+	static BLISS_FILES = [...BLISS_FILES]
 	static BLISS_WORDS = this.BLISS_FILES.map(s => s.replace(/\.svg$/i, ''))
 	static BLISS_PATHS = this.BLISS_FILES.map(s => `${this.BLISS_FOLDER}/${s}`)
 	static BLISS_ICONS = this.BLISS_FILES.map(this.BLISS_ICON)
@@ -196,9 +195,9 @@ export class Defaults extends Primitives {
 	}
 
 	static MUSIC_GUITAR_TUNINGS = { ...GUITAR_TUNINGS }
-	static MUSIC_NOTES_BASIC = [...NOTES_BASIC]
+	static MUSIC_NOTES_BASIC = [...NOTES_SHARP]
 	static MUSIC_NOTES_PRIMARY = [...NOTES_PRIMARY]
-	static MUSIC_NOTES_ALT = [...NOTES_ALT]
+	static MUSIC_NOTES_ALT = [...NOTES_BEMOLE]
 	static MUSIC_NOTES = [...NOTES]
 	static MUSIC_SCALES = [...SCALES]
 	static MUSIC_SYNTHS = [...SYNTHS]
@@ -207,37 +206,4 @@ export class Defaults extends Primitives {
 	static MUSIC_DURATION_CHARS = [...DURATION_CHARS]
 	static MUSIC_DURATIONS = [...DURATIONS]
 	static MUSIC_INTERVAL_CHARS = [...INTERVAL_CHARS]
-
-	static MUSIC_VALUES = {
-		MUSIC_NOTES_BASIC: this.MUSIC_NOTES_BASIC,
-		MUSIC_NOTES_PRIMARY: this.MUSIC_NOTES_PRIMARY,
-		MUSIC_NOTES_ALT: this.MUSIC_NOTES_ALT,
-		MUSIC_NOTES: this.MUSIC_NOTES,
-		MUSIC_SCALES: this.MUSIC_SCALES,
-		MUSIC_GUITAR_TUNINGS: this.MUSIC_GUITAR_TUNINGS,
-		MUSIC_SYNTHS: this.MUSIC_SYNTHS,
-		MUSIC_TUNING_NAMES: this.MUSIC_TUNING_NAMES,
-		MUSIC_TUNING_VALUES: this.MUSIC_TUNING_VALUES,
-		MUSIC_DURATION_CHARS: this.MUSIC_DURATION_CHARS,
-		MUSIC_DURATIONS: this.MUSIC_DURATIONS,
-		MUSIC_INTERVAL_CHARS: this.MUSIC_INTERVAL_CHARS,
-	}
-
-	static TOTAL = {
-		BLISS_FILES: ~~BLISS_FILES?.length,
-		COLOR_CLASS: ~~COLOR_CLASS?.length,
-		COLOR_NAMES: ~~COLOR_NAMES?.length,
-		COLOR_CODES: ~~COLOR_CODES?.length,
-		NOTES_BASIC: ~~NOTES_BASIC?.length,
-		NOTES_PRIMARY: ~~NOTES_PRIMARY?.length,
-		NOTES_ALT: ~~NOTES_ALT?.length,
-		NOTES: ~~NOTES?.length,
-		SCALES: ~~SCALES?.length,
-		SYNTHS: ~~SYNTHS?.length,
-		TUNING_NAMES: ~~TUNING_NAMES?.length,
-		TUNING_VALUES: ~~TUNING_VALUES?.length,
-		DURATION_CHARS: ~~DURATION_CHARS?.length,
-		DURATIONS: ~~DURATIONS?.length,
-		INTERVAL_CHARS: ~~INTERVAL_CHARS?.length,
-	}
 }
