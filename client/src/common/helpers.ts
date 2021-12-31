@@ -159,98 +159,145 @@ export class Helpers {
 			.map(() => this.v)
 	}
 
+	// _noteBasic -> Возвращает случайное значение ноты в виде символа (A, B, C, D, E, F, G)
 	public static get _noteBasic() {
 		return this.el(Defaults.MUSIC_NOTES_BASIC)
 	}
 
+	// _noteBasic -> Возвращает ноту со знаком альтерации # (..._noteBasic | 'A#', 'C#', 'E#', 'F#', 'G#')
+	public static get _noteSharp() {
+		return this.el(Defaults.MUSIC_NOTES_SHARP)
+	}
+	// _noteBasic -> Возвращает ноту со знаком альтерации b (..._noteBasic | 'Bb', 'Db', 'Eb', 'Fb', 'Ab')
+	public static get _noteBemole() {
+		return this.el(Defaults.MUSIC_NOTES_BEMOLE)
+	}
+	// _noteBasic -> Возвращает случайное значение ноты в виде символа (A, B, C, D, E, F, G)
+	public static get _noteChar() {
+		return this.el(Defaults.MUSIC_NOTES)
+	}
+	// _noteBasic -> Возвращает случайное значение ноты в виде символа (A, B, C, D, E, F, G)
+	public static get _noteBasic() {
+		return this.el(Defaults.MUSIC_NOTES_BASIC)
+	}
+	
+	// _noteBasic -> Возвращает _noteBasic + ноты со знаками альтерации b (A, А#)
 	public static get _noteChar() {
 		return this.el(Defaults.MUSIC_NOTES)
 	}
 
+	// _noteBasic -> Возвращает _noteBasic + ноты со знаками альтерации # (A, А#)
+	public static get _noteCharSharp() {
+		return this.el(Defaults.MUSIC_NOTES)
+	}
+
+
+	// _instrumentKey -> Возвращает случайное значение ноты в виде строки
 	public static get _instrumentKey() {
 		return this.el(Defaults.INSTRUMENT_KEYS)
 	}
 
+	// _instrumentValue -> Возвращает случайное значение ноты в виде строки
 	public static get _instrumentValue() {
 		return this.el(Defaults.INSTRUMENT_VALUES)
 	}
 
+	// _instrumentShare -> Возвращает случайное значение ноты в виде строки
 	public static get _instrumentShare() {
 		return this.el(Defaults.INSTRUMENT_SHARED)
 	}
 
+	// _instrumentId -> Возвращает случайное значение ноты в виде строки
 	public static get _instrumentId() {
 		return this.el(Defaults.INSTRUMENT_IDS)
 	}
 
+	// _instrumentNote -> Возвращает случайное значение ноты в виде строки
 	public static get _instrumentNote() {
 		return this.el(Defaults.INSTRUMENT_NOTES)
 	}
 
+	// _instrumentFile -> Возвращает случайное значение ноты в виде строки
 	public static get _instrumentFile() {
 		return this.el(Defaults.INSTRUMENT_FILES)
 	}
 
+	// _instrumentFolder -> Возвращает случайное значение ноты в виде строки
 	public static get _instrumentFolder() {
 		return this.el(Defaults.INSTRUMENT_FOLDERS)
 	}
 
+	// _blissFile -> Возвращает случайное значение ноты в виде строки
 	public static get _blissFile(): tBlissFile {
 		return this.el(Defaults.BLISS_FILES)
 	}
 
+	// _blissWord -> Возвращает случайное значение ноты в виде строки
 	public static get _blissWord(): tBlissWord {
 		return this.el(Defaults.BLISS_WORDS)
 	}
 
+	// _blissPath -> Возвращает случайное значение ноты в виде строки
 	public static get _blissPath(): tBlissPath {
 		return this.el(Defaults.BLISS_PATHS)
 	}
 
+	// _blissIcon -> Возвращает случайное значение ноты в виде строки
 	public static get _blissIcon(): tBlissIcon {
 		return this.el(Defaults.BLISS_ICONS)
 	}
 
+	// _scale -> Возвращает случайное значение ноты в виде строки
 	public static get _scale() {
 		return this.el(Defaults.MUSIC_SCALES)
 	}
 
+	// _durationChar -> Возвращает случайное значение ноты в виде строки
 	public static get _durationChar() {
 		return this.el(Defaults.MUSIC_DURATION_CHARS)
 	}
 
+	// _duration -> Возвращает случайное значение ноты в виде строки
 	public static get _duration() {
 		return this.el(Defaults.MUSIC_DURATIONS)
 	}
 
+	// _intervalChar -> Возвращает случайное значение ноты в виде строки
 	public static get _intervalChar() {
 		return this.el(Defaults.MUSIC_INTERVAL_CHARS)
 	}
 
+	// _synth -> Возвращает случайное значение ноты в виде строки
 	public static get _synth() {
 		return this.el(Defaults.MUSIC_SYNTHS)
 	}
 
+	// _tuningName -> Возвращает случайное значение ноты в виде строки
 	public static get _tuningName() {
 		return this.el(Defaults.MUSIC_TUNING_NAMES)
 	}
 
+	// _tuningValue -> Возвращает случайное значение ноты в виде строки
 	public static get _tuningValue() {
 		return this.el(Defaults.MUSIC_TUNING_VALUES)
 	}
 
+	// _colorName -> Возвращает случайное значение ноты в виде строки
 	public static get _colorName() {
 		return this.el(Defaults.COLOR_NAMES)
 	}
 
+	// _colorCode -> Возвращает случайное значение ноты в виде строки
 	public static get _colorCode() {
 		return this.el(Defaults.COLOR_CODES)
 	}
 
+	// _colorClass -> Возвращает случайное значение ноты в виде строки
 	public static get _colorClass() {
 		return this.el(Defaults.COLOR_CLASS)
 	}
 
+	// _values -> Возвращает случайное значение ноты в виде строки
 	public static get _values() {
 		return {
 			colorName: this._colorName,
@@ -268,29 +315,36 @@ export class Helpers {
 		}
 	}
 
-	public static get styleColorGradient() {
+	// _styleColorGradient -> Возвращает случайное значение ноты в виде строки
+	public static get _styleColorGradient() {
 		return `${this._colorCode()} ${this.int(0, 100)}.00%`
 	}
 
-	public static get styleBackgroundGradient() {
-		return `linear-gradient(${this.int(0, 120)}.00deg, ${this.styleColorGradient}, ${this.styleColorGradient})`
+	// _styleBackgroundGradient -> Возвращает случайное значение ноты в виде строки
+	public static get _styleBackgroundGradient() {
+		return `linear-gradient(${this.int(0, 120)}.00deg, ${this._styleColorGradient}, ${this._styleColorGradient})`
 	}
 
+	// _octave -> Возвращает случайное значение ноты в виде строки
 	public static get _octave() {
 		return this.octave()
 	}
 
+	// _note -> Возвращает случайное значение ноты в виде строки
 	public static get _note() {
 		return this.note()
 	}
 
+	// _velocity -> Возвращает случайное значение ноты в виде строки
 	public static get _velocity() {
 		return this.velocity()
 	}
 
+	// _noteValues -> Возвращает случайное значение ноты в виде строки
 	public static get _noteValues() {
 		return this.noteValues()
 	}
+
 
 	public static octave = (min = 2, max = 4) => this.val(min, max)
 

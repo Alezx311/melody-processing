@@ -2,10 +2,10 @@ import { _keys, _values } from './shortcuts'
 import { S, tNote } from './types'
 
 //! Constant Values for using in generate values, validate, etc...
-export const NOTES_PRIMARY = ['A', 'B', 'C', 'D', 'F', 'E', 'G'] as const
-export const NOTES_SHARP = ['A#', 'C#', 'E#', 'F#', 'G#'] as const
-export const NOTES_BEMOLE = ['Bb', 'Db', 'Eb', 'Fb', 'Ab'] as const
-export const NOTES = [...NOTES_PRIMARY, ...NOTES_SHARP] as const
+export const NOTES_BASIC = ['A', 'B', 'C', 'D', 'F', 'E', 'G'] as const
+export const NOTES_SHARP = [ ...NOTES_BASIC, 'A#', 'C#', 'E#', 'F#', 'G#'] as const
+export const NOTES_BEMOLE = [ ...NOTES_BASIC, 'Bb', 'Db', 'Eb', 'Fb', 'Ab'] as const
+export const NOTES = [...NOTES_SHARP] as const
 export const SCALES = [
 	'major',
 	'minor',

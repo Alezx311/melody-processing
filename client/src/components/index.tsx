@@ -7,11 +7,11 @@ import { Guitar } from './Guitar'
 
 export const Main = () => {
 	const [state, setState] = useState(Defaults.state)
-	const [background, setBackground] = useState(Helpers.styleBackgroundGradient)
+	const [background, setBackground] = useState(Helpers._styleBackgroundGradient)
 
 	const reducer = (obj: tState) => {
 		setState({ ...state, ...obj })
-		setBackground(Helpers.styleBackgroundGradient)
+		setBackground(Helpers._styleBackgroundGradient)
 	}
 
 	return (

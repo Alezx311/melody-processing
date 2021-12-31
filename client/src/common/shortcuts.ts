@@ -38,7 +38,7 @@ export const _type = (v1: any) => typeof v1
 export const _isInst = (v1: any, v2: any) => v1 instanceof v2
 
 export const _keys = _o.keys
-export const _val = _o.values
+export const _values = _o.values
 export const _entries = _o.entries
 // export const _keys = <T1 extends O>(obj: T1): (keyof T1)[] => _o.keys(obj).filter(Boolean) as (keyof T1)[]
 // export const _val = <T1 extends O>(obj: T1): T1[keyof T1][] => _keys(obj).map(k => obj[k])
@@ -55,8 +55,6 @@ export const _about = (source: any, desc: S, from?: S) => ({
 })
 
 export class Primitives {
-	static UND: UND = undefined
-	static NULL: null = null
 	static E: E = new Error('Example of Error')
 	static N: N = Math.random()
 	static B: B = true
@@ -65,6 +63,21 @@ export class Primitives {
 	static O: O = { err: this.E }
 	static F: F = () => {}
 	static P: P = Promise.resolve(true)
+
+	static NULL = null
+	static FALSE = false
+	static UND = undefined
+	static ZERO = 0
+	static EMPTY_STR = ''
+	static EMPTY_ARR = []
+	static EMPTY_OBJ = {}
+	
+	static TRUE = true
+	static ONE = 1
+	static TRUTHY_STR = 'Some value'
+	static TRUTHY_ARR = [this.TRUTHY_STR]
+	static TRUTHY_OBJ = {someKey: this.TRUTHY_STR}
+	
 
 	static Examples = {
 		UND: { instance: this.UND, desc: 'Example of UND' },
