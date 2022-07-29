@@ -1,6 +1,21 @@
-import * as Teoria from 'teoria'
-import * as Tone from 'tone'
+import Teoria from 'teoria'
+// import * as Tone from 'tone'
 
+// console.log('Tone', Object.keys(Tone))
+// export class Sound {
+//   static synth = (name) => new Tone[name]().toDestination()
+
+//   static playOne = (note, synth) => {
+//     synth.triggerAttackRelease(note, '4n')
+//   }
+
+//   static play = () => {
+//     Tone.Transport.start('0.1')
+//   }
+//   static stop = () => {
+//     Tone.Transport.stop(0)
+//   }
+// }
 import {
   NOTES,
   SCALES,
@@ -14,20 +29,6 @@ import {
   DURATIONS,
 } from './constants'
 
-export class Sound {
-  static synth = (name) => new Tone[name]().toDestination()
-
-  static playOne = (note, synth) => {
-    synth.triggerAttackRelease(note, '4n')
-  }
-
-  static play = () => {
-    Tone.Transport.start('0.1')
-  }
-  static stop = () => {
-    Tone.Transport.stop(0)
-  }
-}
 export class Note {
   static getScale = (note, scale) => {
     const Note = Teoria.note(note)
@@ -130,161 +131,4 @@ export class Random {
   static styleColorGradient = () => `${this.colorHex()} ${this.number(0, 100)}.00%`
   static styleBackgroundGradient = () =>
     `linear-gradient(${this.number(0, 120)}.00deg, ${this.styleColorGradient()}, ${this.styleColorGradient()})`
-
-  get _range() {
-    return this.range()
-  }
-  get _float() {
-    return this.float()
-  }
-  get _number() {
-    return this.number()
-  }
-  get _boolean() {
-    return this.boolean()
-  }
-  get _numbers() {
-    return this.numbers()
-  }
-  get _powerOfTwo() {
-    return this.powerOfTwo()
-  }
-  get _numbersDeep() {
-    return this.numbersDeep()
-  }
-  get _values() {
-    return this.values()
-  }
-  get _array() {
-    return this.array()
-  }
-  get _arrays() {
-    return this.arrays()
-  }
-  get _arrayPart() {
-    return this.arrayPart()
-  }
-  get _arrayGrow() {
-    return this.arrayGrow()
-  }
-  get _arrayExamples() {
-    return this.arrayExamples()
-  }
-  get _arraySequence() {
-    return this.arraySequence()
-  }
-  get _arrayChange() {
-    return this.arrayChange()
-  }
-  get _arrayMerge() {
-    return this.arrayMerge()
-  }
-  get _arrayDouble() {
-    return this.arrayDouble()
-  }
-  get _arrayRepeats() {
-    return this.arrayRepeats()
-  }
-  get _arrayUnicals() {
-    return this.arrayUnicals()
-  }
-  get _arrayShuffle() {
-    return this.arrayShuffle()
-  }
-  get _arrayShuffles() {
-    return this.arrayShuffles()
-  }
-  get _arrayShuffleUnicals() {
-    return this.arrayShuffleUnicals()
-  }
-  get _arrayIndex() {
-    return this.arrayIndex()
-  }
-  get _arrayElement() {
-    return this.arrayElement()
-  }
-  get _arrayDoubleSome() {
-    return this.arrayDoubleSome()
-  }
-  get _objectKey() {
-    return this.objectKey()
-  }
-  get _objectProp() {
-    return this.objectProp()
-  }
-  get _noteChar() {
-    return this.noteChar()
-  }
-  get _octave() {
-    return this.octave()
-  }
-  get _note() {
-    return this.note()
-  }
-  get _notes() {
-    return this.notes()
-  }
-  get _scale() {
-    return this.scale()
-  }
-  get _durationChar() {
-    return this.durationChar()
-  }
-  get _duration() {
-    return this.duration()
-  }
-  get _interval() {
-    return this.interval()
-  }
-  get _velocity() {
-    return this.velocity()
-  }
-  get _tuningName() {
-    return this.tuningName()
-  }
-  get _tuning() {
-    return this.tuning()
-  }
-  get _noteValues() {
-    return this.noteValues()
-  }
-  get _noteParse() {
-    return this.noteParse()
-  }
-  get _noteIndex() {
-    return this.noteIndex()
-  }
-  get _noteStep() {
-    return this.noteStep()
-  }
-  get _noteSteps() {
-    return this.noteSteps()
-  }
-  get _rhythmValues() {
-    return this.rhythmValues()
-  }
-  get _rhythmValuesDeep() {
-    return this.rhythmValuesDeep()
-  }
-  get _rhythmNotes() {
-    return this.rhythmNotes()
-  }
-  get _rhythmNotesDeep() {
-    return this.rhythmNotesDeep()
-  }
-  get _colorName() {
-    return this.colorName()
-  }
-  get _colorHex() {
-    return this.colorHex()
-  }
-  get _colorClassName() {
-    return this.colorClassName()
-  }
-  get _styleColorGradient() {
-    return this.styleColorGradient()
-  }
-  get _styleBackgroundGradient() {
-    return this.styleBackgroundGradient()
-  }
 }

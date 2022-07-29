@@ -12,7 +12,7 @@ yarn install
 yarn start
 ```
 
-- App will be open at http://127.0.0.1:3000
+- App will be open at <http://127.0.0.1:3000>
 
 - ! Please, choose instrument (even if it have default option)
 - ! Please, click on any note button after previous step.
