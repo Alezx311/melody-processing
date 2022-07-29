@@ -1,6 +1,6 @@
-import fs from 'fs'
-import util from 'util'
-import { A, B, E, F, N, O, P, S, UND } from './types'
+import fs from "fs"
+import util from "util"
+import { A, B, E, F, N, O, P, S } from "./types"
 
 export const _sym = Symbol
 export const _big = BigInt
@@ -22,15 +22,15 @@ export const _i = {
 	Object: Object,
 	RegExp: RegExp,
 	Promise: Promise,
-	Function: Function,
+	Function: Function
 }
 export const _iNames = _o.keys(_i) as (keyof typeof _i)[]
-export const _iFind = (v: any) => _iNames.find(desc => v instanceof _i[desc])
+export const _iFind = (v: any) => _iNames.find((desc) => v instanceof _i[desc])
 
 export const _insp = util.inspect
 export const _strngf = JSON.stringify
 export const _parse = JSON.parse
-export const _json = (v: any): S => _strngf(v, null, '\t')
+export const _json = (v: any): S => _strngf(v, null, "\t")
 export const _jsonInsp = (v: any): S => _json(_insp(v, true))
 export const _jsonFormat = (v: any): O => _parse(_strngf(v))
 
@@ -51,11 +51,11 @@ export const _about = (source: any, desc: S, from?: S) => ({
 	from,
 	is: (v?: any) => v === source || _isInst(v, source),
 	typeof: _type(source),
-	isTruthy: !!source,
+	isTruthy: !!source
 })
 
 export class Primitives {
-	static E: E = new Error('Example of Error')
+	static E: E = new Error("Example of Error")
 	static N: N = Math.random()
 	static B: B = true
 	static S: S = this.N.toFixed(2)
@@ -68,28 +68,27 @@ export class Primitives {
 	static FALSE = false
 	static UND = undefined
 	static ZERO = 0
-	static EMPTY_STR = ''
+	static EMPTY_STR = ""
 	static EMPTY_ARR = []
 	static EMPTY_OBJ = {}
-	
+
 	static TRUE = true
 	static ONE = 1
-	static TRUTHY_STR = 'Some value'
+	static TRUTHY_STR = "Some value"
 	static TRUTHY_ARR = [this.TRUTHY_STR]
-	static TRUTHY_OBJ = {someKey: this.TRUTHY_STR}
-	
+	static TRUTHY_OBJ = { someKey: this.TRUTHY_STR }
 
 	static Examples = {
-		UND: { instance: this.UND, desc: 'Example of UND' },
-		NULL: { instance: this.NULL, desc: 'Example of NULL' },
-		E: { instance: this.E, desc: 'Example of E' },
-		N: { instance: this.N, desc: 'Example of N' },
-		B: { instance: this.B, desc: 'Example of B' },
-		S: { instance: this.S, desc: 'Example of S' },
-		A: { instance: this.A, desc: 'Example of A' },
-		O: { instance: this.O, desc: 'Example of O' },
-		F: { instance: this.F, desc: 'Example of F' },
-		P: { instance: this.P, desc: 'Example of P' },
+		UND: { instance: this.UND, desc: "Example of UND" },
+		NULL: { instance: this.NULL, desc: "Example of NULL" },
+		E: { instance: this.E, desc: "Example of E" },
+		N: { instance: this.N, desc: "Example of N" },
+		B: { instance: this.B, desc: "Example of B" },
+		S: { instance: this.S, desc: "Example of S" },
+		A: { instance: this.A, desc: "Example of A" },
+		O: { instance: this.O, desc: "Example of O" },
+		F: { instance: this.F, desc: "Example of F" },
+		P: { instance: this.P, desc: "Example of P" }
 	}
 }
 
@@ -117,14 +116,14 @@ export const _war = console.warn
 export const _error = console.error
 export const _trace = console.trace
 export const _console = {
-	log: _about(_log, '_log'),
-	inf: _about(_inf, '_inf'),
-	tab: _about(_tab, '_tab'),
-	deb: _about(_deb, '_deb'),
-	dir: _about(_dir, '_dir'),
-	war: _about(_war, '_war'),
-	error: _about(_error, '_error'),
-	trace: _about(_trace, '_trace'),
+	log: _about(_log, "_log"),
+	inf: _about(_inf, "_inf"),
+	tab: _about(_tab, "_tab"),
+	deb: _about(_deb, "_deb"),
+	dir: _about(_dir, "_dir"),
+	war: _about(_war, "_war"),
+	error: _about(_error, "_error"),
+	trace: _about(_trace, "_trace")
 }
 
 export const _now = Date.now
@@ -143,11 +142,11 @@ export const _min = Math.min
 export const _max = Math.max
 
 export const _primitive = {
-	Promise: { instance: Promise, example: Promise.resolve('Example') },
-	Function: { instance: Function, example: () => 'Example' },
-	String: { instance: String, example: 'Example' },
-	Array: { instance: Array, example: ['Example'] },
+	Promise: { instance: Promise, example: Promise.resolve("Example") },
+	Function: { instance: Function, example: () => "Example" },
+	String: { instance: String, example: "Example" },
+	Array: { instance: Array, example: ["Example"] },
 	Number: { instance: Number, example: 42 },
-	Object: { instance: Object, example: { prop: 'Example' } },
-	RegExp: { instance: RegExp, example: new RegExp('') },
+	Object: { instance: Object, example: { prop: "Example" } },
+	RegExp: { instance: RegExp, example: new RegExp("") }
 }

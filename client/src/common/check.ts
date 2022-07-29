@@ -1,6 +1,7 @@
-import { Value } from './constants'
-import { _a, _big, _e, _f, _keys, _max, _min, _n, _o, _s, _sym } from './shortcuts'
-import { A, B, E, F, N, O, S, tBig, tInst, tNum, tObj, tStr, tSym, tType, tValue, UND } from './types'
+import { Defaults } from "./constants"
+
+import { _a, _e, _f, _keys, _max, _min, _n, _o, _s, _sym } from "./shortcuts"
+import { A, B, F, N, O, S, tArr, tBig, tErr, tFun, tNum, tObj, tStr, tSym, tType, tValue, UND } from "./types"
 //? Validation, check for truthy values, etc
 export const is = (v1?: any) => !!v1
 export const isNull = (v1?: any): v1 is tSym => v1 === null
@@ -12,7 +13,7 @@ export const isNFin = (v1?: any) => isTN(v1) && _n.isFinite(v1)
 export const isNInt = (v1?: any) => isTN(v1) && _n.isInteger(v1)
 export const isNSafe = (v1?: any) => isTN(v1) && _n.isSafeInteger(v1)
 export const isNIn = (v1: N, r: N[]): B => isN(v1) && isA(r) && v1 >= _min(...r) && v1 >= _max(...r)
-export const isNInSafe: F = (v1: N): B => isN(v1) && isNIn(v1, Value.rangeSafe)
+export const isNInSafe: F = (v1: N): B => isN(v1) && isNIn(v1, Defaults.rangeSafe)
 export const isValue = <T1>(v1?: T1): v1 is NonNullable<T1> => !isNull(v1) && !isUndefined(v1)
 export const isValid = <T1>(v1?: T1): v1 is NonNullable<T1> => is(v1) && isValue(v1)
 
@@ -35,34 +36,34 @@ export const orUnd = (v1: any) => (is(v1) ? v1 : undefined)
 export const orValue = (v1: any, v2: any) => (is(v1) ? v1 : v2)
 export const orFalse = (v1: any) => is(v1) && v1
 
-export const orA: F = v1 => orValue(v1, [v1])
-export const orO: F = v1 => orValue(v1, { v1 })
-export const orN: F = v1 => orValue(v1, ~~v1)
-export const orS: F = v1 => orValue(v1, `${v1}`)
-export const orB: F = v1 => orValue(v1, is(v1))
+export const orA: F = (v1) => orValue(v1, [v1])
+export const orO: F = (v1) => orValue(v1, { v1 })
+export const orN: F = (v1) => orValue(v1, ~~v1)
+export const orS: F = (v1) => orValue(v1, `${v1}`)
+export const orB: F = (v1) => orValue(v1, is(v1))
 
 export const isI = <T1 extends tType>(v1: any, v2: T1): v1 is T1 => v1 instanceof v2
 export const isISym = (v1: any): v1 is tSym => isI(v1, _sym)
 export const isIBig = (v1: any): v1 is tBig => isI(v1, _sym)
 export const isIE = (v1: any): v1 is tErr => isI(v1, _e)
-export const isIS = (v1: any): v1 is tS => isI(v1, _s)
-export const isIA = (v1: any): v1 is tA => isI(v1, _a)
-export const isIN = (v1: any): v1 is tN => isI(v1, _n)
-export const isIO = (v1: any): v1 is tO => isI(v1, _o)
-export const isIF = (v1: any): v1 is tF => isI(v1, _f)
+export const isIS = (v1: any): v1 is tStr => isI(v1, _s)
+export const isIA = (v1: any): v1 is tArr => isI(v1, _a)
+export const isIN = (v1: any): v1 is tNum => isI(v1, _n)
+export const isIO = (v1: any): v1 is tObj => isI(v1, _o)
+export const isIF = (v1: any): v1 is tFun => isI(v1, _f)
 
 export type fOpt<T1 = any, T2 = any> = (v1?: T1) => T2
 export type fOne<T1 = tValue, T2 = any> = (v1: T1) => T2
 export type fMany<T1 extends A = any[], T2 = any> = (...v: T1) => T2
 export const isT = <T1>(v1: any, v2: T1): v1 is T1 => typeof v1 === typeof v2
-export const isTU = (v1: any): v1 is UND => typeof v1 === 'undefined'
-export const isTBig = (v1: any): v1 is tBig => typeof v1 === 'bigint'
-export const isTSym = (v1: any): v1 is tSym => typeof v1 === 'symbol'
-export const isTO = (v1: any): v1 is O => typeof v1 === 'object'
-export const isTS = (v1: any): v1 is S => typeof v1 === 'string'
-export const isTN = (v1: any): v1 is N => typeof v1 === 'number'
-export const isTB = (v1: any): v1 is B => typeof v1 === 'boolean'
-export const isTF = (v1: any): v1 is F => typeof v1 === 'function'
+export const isTU = (v1: any): v1 is UND => typeof v1 === "undefined"
+export const isTBig = (v1: any): v1 is tBig => typeof v1 === "bigint"
+export const isTSym = (v1: any): v1 is tSym => typeof v1 === "symbol"
+export const isTO = (v1: any): v1 is O => typeof v1 === "object"
+export const isTS = (v1: any): v1 is S => typeof v1 === "string"
+export const isTN = (v1: any): v1 is N => typeof v1 === "number"
+export const isTB = (v1: any): v1 is B => typeof v1 === "boolean"
+export const isTF = (v1: any): v1 is F => typeof v1 === "function"
 
 export const isA = (v1: any): v1 is A => _a.isArray(v1) && isTO(v1)
 export const isO = (v1: any): v1 is O => isValue(v1) && isTO(v1)
