@@ -1,24 +1,24 @@
 export const INITIAL_STATE = {
   word: '',
   words: [],
-  color: '#fff',
+  color: '#ac3',
   content: [],
   strings: 6,
   frets: 24,
   tuning: 'E Standart',
-  rootNote: 'C4',
-  scale: 'minor',
-  size: 500,
+  rootNote: 'C3',
+  scale: 'minorpentatonic',
+  size: 100,
   riff: [],
   synth: false,
   synthName: 'PolySynth',
-  instrumentName: '',
+  instrumentName: 'piano',
   isPlaying: false,
   valueOnPlay: {},
-};
+}
 
 //! Constant Values for using in generate values, validate, etc...
-export const NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'F', 'E', 'E#', 'G', 'G#'];
+export const NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'F', 'E', 'E#', 'G', 'G#']
 export const SCALES = [
   'major',
   'minor',
@@ -39,7 +39,7 @@ export const SCALES = [
   'harmonicminor',
   'melodicminor',
   'wholetone',
-];
+]
 export const COLOR_CLASSNAMES = [
   'primary',
   'secondary',
@@ -52,8 +52,8 @@ export const COLOR_CLASSNAMES = [
   'body',
   'white',
   'transparent',
-];
-export const COLOR_NAMES = ['blue', 'indigo', 'purple', 'pink', 'red', 'orange', 'yellow', 'green', 'teal', 'cyan'];
+]
+export const COLOR_NAMES = ['blue', 'indigo', 'purple', 'pink', 'red', 'orange', 'yellow', 'green', 'teal', 'cyan']
 export const COLOR_CODES = [
   '#ff0000',
   '#ff4e00',
@@ -67,14 +67,28 @@ export const COLOR_CODES = [
   '#3c00ff',
   '#a800ff',
   '#ff00fd',
-];
+]
+export const COLOR_HEX_DICTIONARY = {
+  red: '#ff0000',
+  orange: '#ff4e00',
+  orange2: '#db7b00',
+  yellow: '#ffcc00',
+  lime: '#e4ed00',
+  green: '#81d700',
+  cyan: '#00ffb4',
+  cyan2: '#00ffea',
+  blue: '#00baff',
+  blueDark: '#3c00ff',
+  violetDark: '#a800ff',
+  violet: '#ff00fd',
+}
 export const GUITAR_TUNINGS = {
   'E Standart': ['E2', 'A2', 'D3', 'G3', 'B4', 'E4'],
   'Drop D': ['D2', 'A2', 'D3', 'G3', 'B4', 'E4'],
   'Drop C': ['C2', 'G2', 'C3', 'F3', 'A4', 'D4'],
   'Drop B': ['B2', 'F#2', 'B3', 'E3', 'G#3', 'C#4'],
-};
-export const TUNING_NAMES = Object.keys(GUITAR_TUNINGS);
+}
+export const TUNING_NAMES = Object.keys(GUITAR_TUNINGS)
 export const SYNTHS = [
   'AMSynth',
   'FMSynth',
@@ -86,10 +100,10 @@ export const SYNTHS = [
   'PluckSynth',
   'PolySynth',
   'Synth',
-];
-export const DURATION_CHARS = ['n'];
-export const DURATIONS = ['4n', '@4n', '.4n', '8n'];
-export const INTERVAL_CHARS = ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'];
+]
+export const DURATION_CHARS = ['n']
+export const DURATIONS = ['4n', '@4n', '.4n', '8n']
+export const INTERVAL_CHARS = ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7']
 export const INSTRUMENTS = {
   'bass-electric': {
     'A#2': 'As2.[mp3|ogg]',
@@ -574,9 +588,9 @@ export const INSTRUMENTS = {
     C5: 'C5.[mp3|ogg]',
     C6: 'C6.[mp3|ogg]',
   },
-};
+}
 
-export const SVG_FOLDER = '../svg';
+export const SVG_FOLDER = '../svg'
 export const SVG_FILES = [
   'a,an,any.svg',
   'ability,capability,capacity,potential.svg',
@@ -6559,7 +6573,7 @@ export const SVG_FILES = [
   'zoology.svg',
   'z_(lowercase).svg',
   'Z_(uppercase).svg',
-];
-export const SVG_WORDS = SVG_FILES.map((str) => str.replace(/\.svg$/i, ''));
-export const SVG_PATHS = SVG_FILES.map((str) => `${SVG_FOLDER}/${str}`);
-export const SVG_ICONS = SVG_FILES.map((file, ind) => ({ file, src: SVG_PATHS[ind], word: SVG_WORDS[ind], ind }));
+]
+export const SVG_WORDS = SVG_FILES.map((str) => str.replace(/\.svg$/i, ''))
+export const SVG_PATHS = SVG_FILES.map((str) => `${SVG_FOLDER}/${str}`)
+export const SVG_ICONS = SVG_FILES.map((file, ind) => ({ file, src: SVG_PATHS[ind], word: SVG_WORDS[ind], ind }))

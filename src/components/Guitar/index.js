@@ -1,16 +1,17 @@
 import React from 'react'
-import { Box, Button, Card, DropButton, TableRow } from 'grommet'
 import * as Tone from 'tone'
+import { Box, Button, Card, DropButton, TableRow } from 'grommet'
 import { GUITAR_TUNINGS, INSTRUMENTS, NOTES, SCALES, SVG_FOLDER, SVG_WORDS, TUNING_NAMES } from '../constants'
 import { Random } from '../helpers'
-import { ReactJsonCute } from './Cute'
+import { Cute } from 'react-cute'
 
+// TODO find a way to work without global variable
 let synth
 
+// TODO Refactor to NORMAL components!
 const DropSelect = ({ label, value, options, onClick }) => {
-  const dropContent = options.map((v) => <Button key={v} label={v} onClick={() => onClick(v)} />)
   const dropAlign = { top: 'bottom', right: 'right' }
-
+  const dropContent = options.map((v) => <Button key={v} label={v} onClick={() => onClick(v)} />)
   return <DropButton label={`${label}: ${value}`} dropAlign={dropAlign} dropContent={dropContent} />
 }
 
@@ -19,10 +20,9 @@ export const Guitar = (props) => {
   const opened = GUITAR_TUNINGS[state.tuning]
   const octaved = opened.map((v) => Random.noteStep(v, 12))
   const stringNotes = [...opened, ...octaved].filter((v, i) => i < state.strings).reverse()
-
   const ContentView = () => (
     <Card>
-      <ReactJsonCute src={{ content: state.content, valueOnPlay: state.valueOnPlay }} />
+      <Cute src={{ content: state.content, valueOnPlay: state.valueOnPlay }} />
     </Card>
   )
 
@@ -46,9 +46,6 @@ export const Guitar = (props) => {
             key={note}
             size='small'
             label={note}
-            style={
-              state?.valueOnPlay?.note?.includes(note) ? { backgroundColor: 'green' } : { backgroundColor: 'gray' }
-            }
             onClick={() => {
               reducer({ rootNote: note })
               synth.triggerAttackRelease(note, '4n')
@@ -81,7 +78,7 @@ export const Guitar = (props) => {
     <Box>
       <SvgImage src={`${SVG_FOLDER}/${state.word}.svg`} />
       <BlissWords src={state.words} />
-      <ReactJsonCute src={state.valueOnPlay} />
+      <Cute src={state.valueOnPlay} />
     </Box>
   )
 
@@ -106,22 +103,21 @@ export const Guitar = (props) => {
       Tone.Transport.set(playOptions)
       Tone.Transport.start('+0.1')
     }
-
     const onStop = () => {
       Tone.Transport.stop(0)
       reducer({ isPlaying: false })
     }
-
     return (
-      <div>
+      <>
         <Button disabled={state.isPlaying} label='Play' onClick={onPlay} />
         <Button disabled={!state.isPlaying} label='Stop' onClick={onStop} />
-      </div>
+      </>
     )
   }
 
+  //! Settings for generate melody
   const SetupFretboard = () => (
-    <div>
+    <>
       <DropSelect
         label='Strings'
         value={state.strings}
@@ -130,11 +126,11 @@ export const Guitar = (props) => {
       />
       <DropSelect label='Frets' value={state.frets} options={[12, 21, 24]} onClick={(v) => reducer({ frets: v })} />
       <DropSelect label='Tuning' value={state.tuning} options={TUNING_NAMES} onClick={(v) => reducer({ tuning: v })} />
-    </div>
+    </>
   )
 
   const SetupRiff = () => (
-    <div>
+    <>
       <DropSelect label='Root Note' value={state.rootNote} options={NOTES} onClick={(v) => reducer({ rootNote: v })} />
       <DropSelect label='Scale' value={state?.scale} options={SCALES} onClick={(v) => reducer({ scale: v })} />
       <DropSelect
@@ -149,15 +145,10 @@ export const Guitar = (props) => {
         options={Object.keys(INSTRUMENTS)}
         onClick={setInstrument}
       />
-    </div>
+    </>
   )
 
-  const SetupButtons = () => (
-    <div>
-      <Button disabled={!state.rootNote} label='Generate Riff' onClick={generateRiff} />
-    </div>
-  )
-
+  const SetupButtons = () => <Button disabled={!state.rootNote} label='Generate Riff' onClick={generateRiff} />
   const SetupGuitar = () => (
     <Box direction='row' align='center' gap='medium'>
       <SetupFretboard />
@@ -165,9 +156,6 @@ export const Guitar = (props) => {
       <SetupButtons />
     </Box>
   )
-
-  // setInstrument('piano')
-  // generateRiff();
 
   return (
     <Box direction='column' align='center' gap='medium'>

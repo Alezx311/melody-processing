@@ -1,4 +1,4 @@
-## Not science, only fun
+# Not science, only fun
 
 ## Requirements
 
@@ -13,9 +13,9 @@ yarn start
 ```
 
 - App will be open at <http://127.0.0.1:3000>
-
-- ! Please, choose instrument (even if it have default option)
-- ! Please, click on any note button after previous step.
+- REQUIRED! Please, choose instrument manually (even if it have default option)
+- Tone.js not working properly with all samples, its good with piano and guitar
+- REQUIRED! Please, click on any note button after previous step.
 - If you want, change melody key, scale, or other settings.
 - Click "Generate"
 - Click "Play"

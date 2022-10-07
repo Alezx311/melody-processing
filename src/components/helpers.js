@@ -1,5 +1,4 @@
 import Teoria from 'teoria'
-// import * as Tone from 'tone'
 import {
   NOTES,
   SCALES,
@@ -14,14 +13,6 @@ import {
 } from './constants'
 
 const { random } = Math
-
-// TODO Tone.js shortcuts class
-// export class Sound {
-//   static synth = (name) => new Tone[name]().toDestination()
-//   static playOne = (note, synth) => synth.triggerAttackRelease(note, '4n')
-//   static play = () => Tone.Transport.start('0.1')
-//   static stop = () => Tone.Transport.stop(0)
-// }
 
 // TODO Please refactor this...
 export class Random {
@@ -68,7 +59,6 @@ export class Random {
     let [note, char, octave = 1] = str.trim().match(/^([a-g#]+)(\d)$/i)
     return { note, char, octave }
   }
-
   static noteIndex = (note) => NOTES.indexOf(note.trim().match(/^([a-g#]+)/i)[1])
   static noteStep = (noteChar, step = 1) => {
     let { char, octave } = this.noteParse(noteChar)
@@ -82,22 +72,20 @@ export class Random {
       octave = ~~octave + ~~(newIndex / l)
       newIndex = newIndex % l
     }
-
     return `${NOTES[newIndex]}${octave}`
   }
-  static getScale = (note, scale) => {
-    const Note = Teoria.note(note)
-    return Note.scale(scale)
+  static getScale = (note, scale) =>
+    Teoria.note(note)
+      .scale(scale)
       .simple()
-      .map((char) => `${char}${Random.octave()}`)
-  }
+      .map((char) => `${char}${this.octave()}`)
 
   static melody = (root, scale, size) => {
     const scaleNotes = this.getScale(root, scale)
     const melody = Array(size)
       .fill(root)
-      .map(() => Random.arrayElement(scaleNotes))
-    return Random.arrayShuffles(melody)
+      .map(() => this.arrayElement(scaleNotes))
+    return this.arrayShuffles(melody)
   }
   static noteSteps = (note, size = 24) =>
     Array(size)

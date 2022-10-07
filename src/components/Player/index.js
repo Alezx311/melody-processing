@@ -11,7 +11,7 @@ export const Player = () => {
       <Button size='small' label='Melody' />
     </Box>
   ))
-  
+
   return (
     <Box direction='column' align='center' gap='medium'>
       {synths}
