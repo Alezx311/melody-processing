@@ -1,9 +1,8 @@
 import React from 'react'
-
-import { GUITAR_TUNINGS, TUNING_NAMES, NOTES, SCALES, INSTRUMENTS, SVG_WORDS, SVG_FOLDER } from '../constants'
-import { Random, Note } from '../helpers'
 import { Box, Button, Card, DropButton, TableRow } from 'grommet'
 import * as Tone from 'tone'
+import { GUITAR_TUNINGS, INSTRUMENTS, NOTES, SCALES, SVG_FOLDER, SVG_WORDS, TUNING_NAMES } from '../constants'
+import { Random } from '../helpers'
 import { ReactJsonCute } from './Cute'
 
 let synth
@@ -21,19 +20,14 @@ export const Guitar = (props) => {
   const octaved = opened.map((v) => Random.noteStep(v, 12))
   const stringNotes = [...opened, ...octaved].filter((v, i) => i < state.strings).reverse()
 
-  const ContentView = () => {
-    return (
-      <Card>
-        <ReactJsonCute src={{ content: state.content, valueOnPlay: state.valueOnPlay }} />
-      </Card>
-    )
-  }
+  const ContentView = () => (
+    <Card>
+      <ReactJsonCute src={{ content: state.content, valueOnPlay: state.valueOnPlay }} />
+    </Card>
+  )
 
   const setInstrument = (instrument) => {
-    const urlEntries = Object.entries(INSTRUMENTS[instrument]).map(([key, val]) => [
-      key,
-      `/samples/${instrument}/${val}`,
-    ])
+    const urlEntries = Object.entries(INSTRUMENTS[instrument]).map(([k, v]) => [k, `/samples/${instrument}/${v}`])
     const samples = Object.fromEntries(urlEntries)
     synth = new Tone.Sampler(samples).toDestination()
     reducer({ synthName: null, instrumentName: instrument })
@@ -41,9 +35,7 @@ export const Guitar = (props) => {
 
   const generateRiff = () => {
     const { rootNote, scale, size } = state
-    const riff = Note.melody(rootNote, scale, size)
-
-    reducer({ riff })
+    reducer({ riff: Random.melody(rootNote, scale, size) })
   }
 
   const Fretboard = () =>
@@ -66,26 +58,24 @@ export const Guitar = (props) => {
       </Box>
     ))
 
-  const BlissWords = ({ src }) => {
-    return (
-      <table>
-        <tr>
-          {src.map((word) => (
-            <td key={`label_${word}`}>
-              <p>{word}</p>
-            </td>
-          ))}
-        </tr>
-        <tr>
-          {src.map((word) => (
-            <td key={`image_${word}`}>
-              <SvgImage src={`${SVG_FOLDER}/${word}.svg`} />
-            </td>
-          ))}
-        </tr>
-      </table>
-    )
-  }
+  const BlissWords = ({ src }) => (
+    <table>
+      <tr>
+        {src.map((word) => (
+          <td key={`label_${word}`}>
+            <p>{word}</p>
+          </td>
+        ))}
+      </tr>
+      <tr>
+        {src.map((word) => (
+          <td key={`image_${word}`}>
+            <SvgImage src={`${SVG_FOLDER}/${word}.svg`} />
+          </td>
+        ))}
+      </tr>
+    </table>
+  )
 
   const RiffView = () => (
     <Box>
@@ -95,36 +85,24 @@ export const Guitar = (props) => {
     </Box>
   )
 
-  const SvgImage = ({ src, ...props }) => {
-    return (
-      <img
-        style={{ width: '100px', height: '100px', backgroundColor: state?.color ?? '#000', borderRadius: '25%' }}
-        src={src}
-        alt={src}
-        {...props}
-      />
-    )
-  }
+  const svgStyle = { width: '100px', height: '100px', backgroundColor: state?.color ?? '#000', borderRadius: '25%' }
+  const SvgImage = ({ src, ...props }) => <img style={svgStyle} src={src} alt={src} {...props} />
 
   const RiffPlay = () => {
     const onPlay = () => {
       const bpm = 120
       const playbackRate = 1
       const playOptions = { bpm, humanize: true, playbackRate }
-
       const notes = state.riff.map((v) => Random.noteValues(v))
-
       new Tone.Sequence((time = Tone.now(), { note, duration = Random.duration(), velocity }) => {
         const color = Random.colorHex()
         const word = Random.arrayElement(SVG_WORDS)
         const words = Array(5)
           .fill(1)
           .map((v) => Random.arrayElement(SVG_WORDS))
-
         reducer({ word, words, color, valueOnPlay: { note, duration, velocity }, isPlaying: true })
         synth.triggerAttackRelease(note, duration, time, velocity)
       }, notes).start(1)
-
       Tone.Transport.set(playOptions)
       Tone.Transport.start('+0.1')
     }
@@ -188,7 +166,7 @@ export const Guitar = (props) => {
     </Box>
   )
 
-  // setInstrument('piano');
+  // setInstrument('piano')
   // generateRiff();
 
   return (
