@@ -1,30 +1,30 @@
 import {
-  EColor,
-  EGuitarFrets,
-  EGuitarString,
-  EGuitarTuningName,
-  EInstrumentName,
-  EMelodySize,
-  EScale,
-  ESynthName,
-} from './enums';
-import { TNote } from './types';
+  TColor,
+  TGuitarFrets,
+  TGuitarString,
+  TInstrumentName,
+  TMelodySize,
+  TNote,
+  TScale,
+  TSynthName,
+  TTuningName,
+} from './constants';
 
 export interface IState {
   word: string;
   words: string[];
-  color: EColor;
+  color: TColor;
   content: any[];
-  strings: EGuitarString;
-  frets: EGuitarFrets;
-  tuning: EGuitarTuningName;
+  strings: TGuitarString;
+  frets: TGuitarFrets;
+  tuning: TTuningName;
   rootNote: TNote;
-  scale: EScale;
-  size: EMelodySize;
+  scale: TScale;
+  size: TMelodySize;
   riff: any[];
   synth: any;
-  synthName: ESynthName;
-  instrumentName: EInstrumentName;
+  synthName: TSynthName;
+  instrumentName: TInstrumentName;
   isPlaying: boolean;
   valueOnPlay: any;
 }

@@ -1,116 +1,143 @@
 import * as Teoria from 'teoria';
-import * as CONSTANTS from './constants';
 import {
+  COLORS,
+  COLOR_CLASSNAMES,
+  COLOR_CODES,
+  COLOR_NAMES,
+  DURATIONS,
+  DURATION_CHARS,
+  GUITAR_FRETS,
+  GUITAR_STRINGS,
+  GUITAR_TUNINGS,
+  INITIAL_STATE,
+  INSTRUMENT_NAMES,
+  INTERVAL_CHARS,
+  KGuitarTuning,
+  MELODY_SIZES,
+  NOTES,
+  NOTE_CHARS,
+  OCTAVES,
+  SCALES,
+  SYNTH_NAMES,
+  TColor,
   TColorClassname,
   TColorCode,
   TColorName,
   TDuration,
   TDurationChar,
+  TGuitarFrets,
+  TGuitarString,
   TGuitarTuning,
-  TInitialState,
+  TInstrumentName,
   TIntervalChar,
+  TMelodySize,
   TNote,
+  TNoteChar,
+  TOctave,
   TScale,
-  TSynth,
-} from './types';
-const {
-  NOTES,
-  SCALES,
-  DURATION_CHARS,
-  DURATIONS,
-  INTERVAL_CHARS,
+  TSynthName,
+  TTuningName,
+  TTypeDesc,
+  TTypeOf,
   TUNING_NAMES,
-  GUITAR_TUNINGS,
-  COLOR_NAMES,
-  COLOR_CODES,
-  COLOR_CLASSNAMES,
-} = CONSTANTS;
-
-const { random } = Math;
-
-export const KEYS_INITIAL_STATE = Object.keys(CONSTANTS.INITIAL_STATE) as [keyof TInitialState];
-export const KEYS_GUITAR_TUNINGS = Object.keys(CONSTANTS.GUITAR_TUNINGS) as [keyof TGuitarTuning];
-
-export const VALUES_INITIAL_STATE = Object.values(CONSTANTS.INITIAL_STATE) as [TInitialState];
-export const VALUES_GUITAR_TUNINGS = Object.values(CONSTANTS.GUITAR_TUNINGS) as [TGuitarTuning];
-
-// ! =====> Utils <======
-export const isInitialStateKey = (v?: any): v is keyof TInitialState => KEYS_INITIAL_STATE.includes(v);
-export const isGuitarTuningsKey = (v?: any): v is keyof TGuitarTuning => KEYS_GUITAR_TUNINGS.includes(v);
-
-export const isInitialStateValue = (v?: any): v is TInitialState => VALUES_INITIAL_STATE.includes(v);
-export const isGuitarTuningsValue = (v?: any): v is TGuitarTuning => VALUES_GUITAR_TUNINGS.includes(v);
-
-export const isNote = (v?: any): v is TNote => NOTES.includes(v);
-export const isScale = (v?: any): v is TScale => SCALES.includes(v);
-export const isColorClass = (v?: any): v is TColorClassname => COLOR_CLASSNAMES.includes(v);
-export const isColorName = (v?: any): v is TColorName => COLOR_NAMES.includes(v);
-export const isColorCode = (v?: any): v is TColorCode => COLOR_CODES.includes(v);
-export const isSynth = (v?: any): v is TSynth => CONSTANTS.SYNTHS.includes(v);
-export const isDurationChar = (v?: any): v is TDurationChar => DURATION_CHARS.includes(v);
-export const isDuration = (v?: any): v is TDuration => DURATIONS.includes(v);
-export const isIntervalChar = (v?: any): v is TIntervalChar => INTERVAL_CHARS.includes(v);
-
-type Initial = { key: string; value: any };
-type O = object;
-type TypeDesc = string;
-type TypeOf = string;
+  TYPEDESC,
+  TYPEOF,
+  VGuitarTuning,
+} from './constants';
+import { IState } from './interfaces';
 
 const { isArray } = Array;
 const { now } = Date;
+const { random } = Math;
+
+// ! =====> Default Values <======
+export const DEFAULTS = {
+  TypeOf: TYPEOF[0],
+  TypeDesc: TYPEDESC[0],
+  NoteChar: NOTE_CHARS[0],
+  Note: NOTES[0],
+  Scale: SCALES[0],
+  Color: COLORS[0],
+  SynthName: SYNTH_NAMES[0],
+  InstrumentName: INSTRUMENT_NAMES[0],
+  Octave: OCTAVES[0],
+  GuitarString: GUITAR_STRINGS[0],
+  GuitarFrets: GUITAR_FRETS[0],
+  MelodySize: MELODY_SIZES[0],
+  TuningName: TUNING_NAMES[0],
+  ColorClassname: COLOR_CLASSNAMES[0],
+  ColorName: COLOR_NAMES[0],
+  ColorCode: COLOR_CODES[0],
+  DurationChar: DURATION_CHARS[0],
+  Duration: DURATIONS[0],
+  IntervalChar: INTERVAL_CHARS[0],
+
+  null: null,
+  array: [],
+  string: '',
+  number: 0,
+  boolean: false,
+  object: {},
+  undefined: undefined,
+  function: (v?: any) => {},
+  default: null,
+  lorem: `
+      Lorem ipsum dolor sit amet,
+      consectetur adipiscing elit, sed
+      do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.
+  `,
+} as const;
+
+export const KEYS_INITIAL_STATE = Object.keys(INITIAL_STATE) as [keyof IState];
+export const KEYS_GUITAR_TUNINGS = Object.keys(GUITAR_TUNINGS) as [KGuitarTuning];
+
+export const VALUES_INITIAL_STATE = Object.values(INITIAL_STATE) as [IState];
+export const VALUES_GUITAR_TUNINGS = Object.values(GUITAR_TUNINGS) as [VGuitarTuning];
 
 // ? Validate types helper utils
 export class Is {
   static truthy = (v?: any) => !!v;
   static exist = (v?: any): v is NonNullable<typeof v> => v !== undefined && v !== null;
-  static null = (v?: any): v is null => {
-    return v != null;
-  };
-  static undef = (v?: any): v is undefined => {
-    return v != undefined;
-  };
+  static null = (v?: any): v is null => v != null;
+  static undef = (v?: any): v is undefined => v != undefined;
   static string = (v?: any): v is string => typeof v === 'string';
-  static number = (v?: any): v is number => {
-    return typeof v === 'number';
-  };
-  static boolean = (v?: any): v is boolean => {
-    return typeof v === 'boolean';
-  };
+  static number = (v?: any): v is number => typeof v === 'number';
+  static boolean = (v?: any): v is boolean => typeof v === 'boolean';
   static function = (v?: any): v is Function => typeof v === 'function';
   static array = (v?: any): v is any[] => isArray(v);
-  static object = (v?: any): v is object => {
-    return typeof v === 'object' && v !== null && Object.keys(v).length > 0;
-  };
-  static typeOf = (v?: any): v is TypeOf => Constants.TYPE_OF_LIST.includes(v);
+  static object = (v?: any): v is object => typeof v === 'object' && v !== null && Object.keys(v).length > 0;
   static len = (v?: any): v is { length: number } => this.exist(v?.length) && v?.length > 0;
   static in = <T = any>(element: T, arr: any[]) => this.array(arr) && arr.includes(element);
   static not = <T = any>(v1: T, v2: any): v1 is Exclude<typeof v1, typeof v2> => v1 !== v2 && typeof v1 !== typeof v2;
   static objectProp = <T = any>(obj: T, k: any): k is keyof T => this.object(obj) && Object.keys(obj).includes(k);
   static objectValue = <T = any>(obj: T, v: any): v is T[keyof T] => this.object(obj) && Object.values(obj).includes(v);
-  static hasProp = <T extends O, K extends keyof T>(
-    obj: T,
-    props: K[],
-  ): obj is typeof obj & Required<{ [k in K]: T[K] }> => props.every(p => this.exist(obj?.[p]));
-  static hasPropFrom = (v?: any): v is Required<Pick<typeof v, 'from'>> => this.exist(v?.from);
-  static hasPropMessage = (v?: any): v is Required<Pick<typeof v, 'message'>> => this.exist(v?.message);
-  static hasPropUpdateCbQuery = (v?: any): v is Required<Pick<typeof v, 'callback_query'>> =>
-    this.exist(v?.update?.callback_query);
-  static hasKeyAndUUID = (v?: any): v is Required<Pick<typeof v, 'key' | 'uuid'>> =>
-    this.exist(v?.key) && this.string(v?.key);
-  static hasIdAndUsername = (v?: any): v is Required<Pick<typeof v, 'id' | 'username'>> => v.id && v.username;
-  static valueInfo(v?: any) {
-    return {
-      isTruthy: this.truthy(v),
-      isDefined: this.exist(v),
-      isString: this.string(v),
-      isNumber: this.number(v),
-      isBoolean: this.boolean(v),
-      isNull: this.null(v),
-      isArray: this.array(v),
-      isObject: this.object(v),
-      isFunction: this.function(v),
-    };
-  }
+
+  static isInitialStateKey = (v?: any): v is keyof IState => KEYS_INITIAL_STATE.includes(v);
+  static isGuitarTuningsKey = (v?: any): v is keyof TGuitarTuning => KEYS_GUITAR_TUNINGS.includes(v);
+
+  static isInitialStateValue = (v?: any): v is IState => VALUES_INITIAL_STATE.includes(v);
+  static isGuitarTuningsValue = (v?: any): v is TGuitarTuning => VALUES_GUITAR_TUNINGS.includes(v);
+
+  static isTypeOf = (v?: any): v is TTypeOf => TYPEOF.includes(v);
+  static isTypeDesc = (v?: any): v is TTypeDesc => TYPEDESC.includes(v);
+  static isNoteChar = (v?: any): v is TNoteChar => NOTE_CHARS.includes(v);
+  static isNote = (v?: any): v is TNote => NOTES.includes(v);
+  static isScale = (v?: any): v is TScale => SCALES.includes(v);
+  static isColor = (v?: any): v is TColor => COLORS.includes(v);
+  static isSynthName = (v?: any): v is TSynthName => SYNTH_NAMES.includes(v);
+  static isInstrumentName = (v?: any): v is TInstrumentName => INSTRUMENT_NAMES.includes(v);
+  static isOctave = (v?: any): v is TOctave => OCTAVES.includes(v);
+  static isGuitarString = (v?: any): v is TGuitarString => GUITAR_STRINGS.includes(v);
+  static isGuitarFrets = (v?: any): v is TGuitarFrets => GUITAR_FRETS.includes(v);
+  static isMelodySize = (v?: any): v is TMelodySize => MELODY_SIZES.includes(v);
+  static isTuningName = (v?: any): v is TTuningName => TUNING_NAMES.includes(v);
+  static isColorClassname = (v?: any): v is TColorClassname => COLOR_CLASSNAMES.includes(v);
+  static isColorName = (v?: any): v is TColorName => COLOR_NAMES.includes(v);
+  static isColorCode = (v?: any): v is TColorCode => COLOR_CODES.includes(v);
+  static isDurationChar = (v?: any): v is TDurationChar => DURATION_CHARS.includes(v);
+  static isDuration = (v?: any): v is TDuration => DURATIONS.includes(v);
+  static isIntervalChar = (v?: any): v is TIntervalChar => INTERVAL_CHARS.includes(v);
 }
 
 // ? Text helper utils
@@ -175,18 +202,46 @@ export class Random {
 
   // ? Return random float value between 0 and 1
   static value = () => Math.random();
+  static get _value() {
+    return this.value();
+  }
+
   // ? Return random boolean
   static bool = () => this.value() > 0.5;
+  static get _bool() {
+    return this.bool();
+  }
+
   // ? Return random array with UUIDv4
   static ids = () => Array(10).fill(1).map(Random.uuid);
+  static get _ids() {
+    return this.ids();
+  }
+
   // ? Return random integer between min and max
   static int = (min = 0, max = 100) => Math.floor(Math.random() * (max - min + 1)) + min;
+  static get _int() {
+    return this.int();
+  }
+
   // ? Return string with random character
   static string = () => String.fromCharCode(Random.int(97, 122));
+  static get _string() {
+    return this.string();
+  }
+
   // ? Return array with provided size
   static array = (size: number = 10) => Array(size).fill(1);
+  static get _array() {
+    return this.array();
+  }
+
   // ? Return object with uuid as key, and integer as value
   static object = (size: number = 10) => this.array(size).reduce(acc => ({ ...acc, [this.uuid()]: this.int() }), {});
+  static get _object() {
+    return this.object();
+  }
+
   // ? Return random array element
   static element = <T extends any[]>(arr: T): T[number] => arr[this.int(0, arr.length - 1)];
   // ? Return random array with array elements
@@ -224,81 +279,88 @@ export class Random {
   static numbers = (size = 10, max = 100) => this.array(size).map(() => this.number(0, max));
   static powerOfTwo = (max = 10) => 2 ** this.number(1, max);
   static numbersDeep = (len = 10, max = 4) => this.numbers(len, max).map(v => (v > 1 ? this.numbers(v, max) : v));
-  static values = arr => this.array(10).map(v => this.arrayElement(arr));
-  // static array = (size = 10, fill = this.boolean(20)) => Array(size).fill(fill);
+  static values = (arr: any[]) => this.array(10).map(v => this.arrayElement(arr));
   static arrays = (size = 10, maxDeep = 5) => this.array(size).map(v => this.array(this.number(2, maxDeep)));
-  static arrayPart = (arr, chance = 20) => arr.filter((v, i) => this.boolean(chance));
-  static arrayGrow = (arr, growSize = 10) => [...arr, ...this.array(growSize).map((v, i) => this.arrayElement(arr))];
-  static arrayExamples = (size = 10) => this.array(size).map(v => this.example());
+  static arrayPart = (arr: any[], chance = 20) => arr.filter((v, i) => this.boolean(chance));
+  static arrayGrow = (arr: any[], growSize = 10) => [
+    ...arr,
+    ...this.array(growSize).map((v, i) => this.arrayElement(arr)),
+  ];
   static arraySequence = (start = 1, end = 100) => this.array(end).map((v, i) => start + i);
-  static arrayChange = (size = 10, arr) => this.arrayElement(this.array(size).map(v => this.arrayShuffle(arr)));
-  static arrayMerge = (arr, ...arrays) => this.arrayUnicals([...arr, ...arrays]);
-  static arrayRepeats = (arr, repeats = 2) => this.array(repeats).reduce((acc, v) => [...acc, ...arr], arr);
-  static arrayUnicals = arr => [...new Set([...arr])];
-  static arrayShuffle = arr => arr.sort(() => this.range() - 0.5);
-  static arrayShuffles = (arr, repeats = 2) => this.arrayShuffle(this.arrayRepeats(arr, repeats));
-  static arrayShuffleUnicals = arr => this.arrayUnicals(this.array(arr.length * 2).map(v => this.arrayShuffle(arr)));
-  static arrayIndex = arr => arr && this.number(0, arr.length);
-  static arrayElement = arr => arr && arr[this.arrayIndex(arr)];
-  static arrayDoubleSome = arr => this.arrayShuffles(arr).map(v => (this.boolean(20) ? [v, v] : v));
-  // static objectKey = obj => this.arrayElement(Object.keys(obj));
-  // static objectProp = obj => obj[this.objectKey(obj)];
-  static noteChar = () => this.arrayElement(NOTES);
-  static octave = (min = 2, max = 4) => this.number(min, max);
-  static note = (octave = this.octave()) => `${this.noteChar()}${octave}`;
-  static notes = (size = 10, octave) => Random.array(size, (v?: any) => Random.note(octave));
-  static scale = () => this.arrayElement(SCALES);
-  static durationChar = () => this.arrayElement(DURATION_CHARS);
-  static duration = () => this.arrayElement(DURATIONS);
-  static interval = () => this.arrayElement(INTERVAL_CHARS);
-  static velocity = () => 0.75 + Random.range() / 3;
-  static tuningName = () => Random.arrayElement(TUNING_NAMES);
+  static arrayChange = (size = 10, arr: any[]) => this.arrayElement(this.array(size).map(v => this.arrayShuffle(arr)));
+  static arrayMerge = (arr: any[], ...arrays: any[][]) => this.arrayUnicals([...arr, ...arrays]);
+  static arrayRepeats = (arr: any[], repeats = 2) => this.array(repeats).reduce((acc, v) => [...acc, ...arr], arr);
+  static arrayUnicals = (arr: any[]) => [...new Set([...arr])];
+  static arrayShuffle = (arr: any[]) => arr.sort(() => this._value - 0.5);
+  static arrayShuffles = (arr: any[], repeats = 2) => this.arrayShuffle(this.arrayRepeats(arr, repeats));
+  static arrayShuffleUnicals = (arr: any[]) =>
+    this.arrayUnicals(this.array(arr.length * 2).map(v => this.arrayShuffle(arr)));
+  static arrayIndex = (arr: any[]) => arr && this.number(0, arr.length);
+  static arrayElement = (arr: any[]) => arr && arr[this.arrayIndex(arr)];
+  static arrayDoubleSome = (arr: any[]) => this.arrayShuffles(arr).map(v => (this.boolean(20) ? [v, v] : v));
+  // NOTES
+  static noteChar = (): TNoteChar => this.arrayElement(NOTE_CHARS);
+  static noteElement = (): TNote => this.arrayElement(NOTES);
+  static octave = (min = 2, max = 8): TOctave => this.number(min, max) as TOctave;
+  static note = (octave: TOctave = this.octave()): TNote => `${this.noteChar()}${octave}`;
+  static notes = (size = 10, octave?: TOctave): TNote[] => Random.array(size).map((v?: any) => Random.note(octave));
+  static scale = (): TScale => this.arrayElement(SCALES);
+  static durationChar = (): TDurationChar => this.arrayElement(DURATION_CHARS);
+  static duration = (): TDuration => this.arrayElement(DURATIONS);
+  static intervalChar = (): TIntervalChar => this.arrayElement(INTERVAL_CHARS);
+  static velocity = () => 0.75 + Random._value / 3;
+  static tuningName = (): TTuningName => Random.arrayElement(TUNING_NAMES);
   static tuning = () => GUITAR_TUNINGS[Random.tuningName()];
-  static noteValues = note => ({ note, duration: Random.duration(), velocity: Random.velocity() });
-  static noteParse = str => {
-    let [note, char, octave = 1] = str.trim().match(/^([a-g#]+)(\d)$/i);
-    return { note, char, octave };
+  static noteValues = (note: TNote) => ({ note, duration: Random.duration(), velocity: Random.velocity() });
+  static noteParse = (str: string) => {
+    const matched = str.trim().match(/^([a-g#]+)(\d)$/i) || [DEFAULTS.Note, DEFAULTS.NoteChar, DEFAULTS.Octave];
+    return { note: matched[0], char: matched[1], octave: matched?.[2] ?? 1 } as {
+      note: TNote;
+      char: TNoteChar;
+      octave: TOctave;
+    };
   };
-  static noteIndex = note => NOTES.indexOf(note.trim().match(/^([a-g#]+)/i)[1]);
-  static noteStep = (noteChar, step = 1) => {
-    let { char, octave } = Random.noteParse(noteChar);
+  static toMaxOctave = (octave: number | TOctave, def: TOctave = DEFAULTS.Octave): TOctave =>
+    Is.isOctave(octave) ? octave : def;
+  static noteToChar = (note: TNote | TNoteChar) => note.match(/^[a-g#]{1,2}/im)?.[0];
+  static noteIndex = (note: TNote | TNoteChar) => NOTES.indexOf(note);
+  static noteStep = (noteOrChar: TNote | TNoteChar, step = 1) => {
+    let { char, octave } = Random.noteParse(noteOrChar);
     let noteIndex = Random.noteIndex(char);
     let newIndex = noteIndex + step;
     const l = NOTES.length;
     if (newIndex === l) {
-      octave = ~~octave + 1;
+      octave = this.toMaxOctave(octave + 1, octave);
       newIndex = 0;
     } else if (newIndex > l) {
-      octave = ~~octave + ~~(newIndex / l);
+      octave = this.toMaxOctave(octave + Math.floor(newIndex / l), octave);
       newIndex = newIndex % l;
     }
     return `${NOTES[newIndex]}${octave}`;
   };
-  static getScale = (note, scale) =>
+  static getScale = (note: TNote, scale: TScale) =>
     Teoria.note(note)
       .scale(scale)
       .simple()
-      .map(char => `${char}${Random.octave()}`);
+      .map((char: TNoteChar) => `${char}${Random.octave()}`);
 
-  static melody = (root, scale, size) => {
+  static melody = (root: TNote, scale: TScale, size: TMelodySize) => {
     const scaleNotes = Random.getScale(root, scale);
     const melody = Array(size)
       .fill(root)
       .map(() => Random.arrayElement(scaleNotes));
     return this.arrayShuffles(melody);
   };
-  static noteSteps = (note, size = 24) =>
+  static noteSteps = (note: TNote, size: TGuitarFrets = 24) =>
     Array(size)
       .fill(note)
       .map((v, i) => this.noteStep(v, i));
   static rhythmValues = (size = 10, max = 4) => this.numbers(size, max);
   static rhythmValuesDeep = (size = 10, max = 4) => this.numbersDeep(size, max);
-  static rhythmNotes = (size = 10) => this.numbers(size, 1, 4).map(v => (v > 1 ? this.notes(v) : this.note()));
-  static rhythmNotesDeep = (size = 10, max = 4, notes = this.notes(size)) =>
-    this.arrayDeepSome(this.rhythmNotes(size, notes), notes);
-  static colorName = () => this.arrayElement(COLOR_NAMES);
-  static colorHex = () => this.arrayElement(COLOR_CODES);
-  static colorClassName = () => this.arrayElement(COLOR_CLASSNAMES);
+  static rhythmNotes = (size = 10) => this.numbers(size, 4).map(v => (v > 1 ? this.notes(v) : this.note()));
+  static colorName = (): TColorName => this.arrayElement(COLOR_NAMES);
+  static colorHex = (): TColorCode => this.arrayElement(COLOR_CODES);
+  static colorClassName = (): TColorClassname => this.arrayElement(COLOR_CLASSNAMES);
   static styleColorGradient = () => `${this.colorHex()} ${this.number(0, 100)}.00%`;
   static styleBackgroundGradient = () =>
     `linear-gradient(${this.number(0, 120)}.00deg, ${this.styleColorGradient()}, ${this.styleColorGradient()})`;
