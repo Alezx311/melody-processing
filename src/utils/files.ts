@@ -1,8 +1,6 @@
-import { EInstrumentName } from './enums'
-import { TNote } from './types'
-
-export const toSamples = (notes: TNote[]) =>
-  notes.reduce((acc, note) => ({ ...acc, [note]: `${note.replace('#', 's')}.[mp3|ogg]` }), {})
+import { EInstrumentName } from './enums';
+export const toSamples = (notes: string[]) =>
+  notes.reduce((acc, note) => ({ ...acc, [note]: `${note.replace('#', 's')}.[mp3|ogg]` }), {});
 
 export const SAMPLES = {
   [EInstrumentName.BASS_ELECTRIC]: toSamples([
@@ -412,7 +410,7 @@ export const SAMPLES = {
     'G6',
   ]),
   [EInstrumentName.XYLOPHONE]: toSamples(['C7', 'G3', 'G4', 'G5', 'G6', 'C4', 'C5', 'C6']),
-} as const
+} as const;
 
 export const SVG = {
   'ability_(half_sized)': ['ability_(half_sized)'],
@@ -6496,4 +6494,4 @@ export const SVG = {
   'your,yours-(singular)': ['your', 'yours-(singular)'],
   'zero_(digit),0': ['zero_(digit)', '0'],
   'Z_(uppercase)': ['Z_(uppercase)'],
-} as const
+} as const;

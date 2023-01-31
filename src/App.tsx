@@ -1,7 +1,7 @@
-import logo from './logo.svg'
-import './App.css'
-import { Main } from './components'
-import { Grommet } from 'grommet'
+import logo from './logo.svg';
+import './App.css';
+import { Main } from './components';
+import { Grommet } from 'grommet';
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
     //     </a>
     //   </header>
     // </div>
-  )
+  );
 }
 
-export default App
+export default App;

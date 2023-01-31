@@ -7,7 +7,7 @@ import {
   EMelodySize,
   EScale,
   ESynthName,
-} from './enums'
+} from './enums';
 
 export const INITIAL_STATE = {
   word: '',
@@ -26,18 +26,18 @@ export const INITIAL_STATE = {
   instrumentName: EInstrumentName.PIANO,
   isPlaying: false,
   valueOnPlay: {},
-} as const
+} as const;
 
 export const GUITAR_TUNINGS = {
   [EGuitarTuningName.E_STANDART]: ['E2', 'A2', 'D3', 'G3', 'B4', 'E4'],
   [EGuitarTuningName.DROP_D]: ['D2', 'A2', 'D3', 'G3', 'B4', 'E4'],
   [EGuitarTuningName.DROP_C]: ['C2', 'G2', 'C3', 'F3', 'A4', 'D4'],
   [EGuitarTuningName.DROP_B]: ['B2', 'F#2', 'B3', 'E3', 'G#3', 'C#4'],
-} as const
+} as const;
 
-export const TUNING_NAMES = [...Object.keys(GUITAR_TUNINGS)] as const
+export const TUNING_NAMES = [...Object.keys(GUITAR_TUNINGS)] as const;
 
-export const NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'F', 'E', 'E#', 'G', 'G#'] as const
+export const NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'F', 'E', 'E#', 'G', 'G#'] as const;
 
 export const SCALES = [
   'major',
@@ -59,7 +59,7 @@ export const SCALES = [
   'harmonicminor',
   'melodicminor',
   'wholetone',
-] as const
+] as const;
 
 export const COLOR_CLASSNAMES = [
   'primary',
@@ -73,7 +73,7 @@ export const COLOR_CLASSNAMES = [
   'body',
   'white',
   'transparent',
-] as const
+] as const;
 
 export const COLOR_NAMES = [
   'blue',
@@ -86,7 +86,7 @@ export const COLOR_NAMES = [
   'green',
   'teal',
   'cyan',
-] as const
+] as const;
 
 export const COLOR_CODES = [
   '#ff0000',
@@ -101,7 +101,7 @@ export const COLOR_CODES = [
   '#3c00ff',
   '#a800ff',
   '#ff00fd',
-] as const
+] as const;
 
 export const SYNTHS = [
   'AMSynth',
@@ -114,10 +114,10 @@ export const SYNTHS = [
   'PluckSynth',
   'PolySynth',
   'Synth',
-] as const
+] as const;
 
-export const DURATION_CHARS = ['n'] as const
+export const DURATION_CHARS = ['n'] as const;
 
-export const DURATIONS = ['4n', '@4n', '.4n', '8n'] as const
+export const DURATIONS = ['4n', '@4n', '.4n', '8n'] as const;
 
-export const INTERVAL_CHARS = ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'] as const
+export const INTERVAL_CHARS = ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'] as const;
