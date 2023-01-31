@@ -1,7 +1,21 @@
-import { randomUUID, randomInt } from 'crypto'
+import { randomInt, randomUUID } from 'crypto'
 import path from 'path'
-import Teoria from 'teoria'
+import * as Teoria from 'teoria'
+import * as CONSTANTS from './constants'
 import {
+  TColorClassname,
+  TColorCode,
+  TColorName,
+  TDuration,
+  TDurationChar,
+  TGuitarTuning,
+  TInitialState,
+  TIntervalChar,
+  TNote,
+  TScale,
+  TSynth,
+} from './types'
+const {
   NOTES,
   SCALES,
   DURATION_CHARS,
@@ -12,9 +26,32 @@ import {
   COLOR_NAMES,
   COLOR_CODES,
   COLOR_CLASSNAMES,
-} from './constants'
+} = CONSTANTS
 
 const { random } = Math
+
+export const KEYS_INITIAL_STATE = Object.keys(CONSTANTS.INITIAL_STATE) as [keyof TInitialState]
+export const KEYS_GUITAR_TUNINGS = Object.keys(CONSTANTS.GUITAR_TUNINGS) as [keyof TGuitarTuning]
+
+export const VALUES_INITIAL_STATE = Object.values(CONSTANTS.INITIAL_STATE) as [TInitialState]
+export const VALUES_GUITAR_TUNINGS = Object.values(CONSTANTS.GUITAR_TUNINGS) as [TGuitarTuning]
+
+// ! =====> Utils <======
+export const isInitialStateKey = (v?: any): v is keyof TInitialState => KEYS_INITIAL_STATE.includes(v)
+export const isGuitarTuningsKey = (v?: any): v is keyof TGuitarTuning => KEYS_GUITAR_TUNINGS.includes(v)
+
+export const isInitialStateValue = (v?: any): v is TInitialState => VALUES_INITIAL_STATE.includes(v)
+export const isGuitarTuningsValue = (v?: any): v is TGuitarTuning => VALUES_GUITAR_TUNINGS.includes(v)
+
+export const isNote = (v?: any): v is TNote => NOTES.includes(v)
+export const isScale = (v?: any): v is TScale => SCALES.includes(v)
+export const isColorClass = (v?: any): v is TColorClassname => COLOR_CLASSNAMES.includes(v)
+export const isColorName = (v?: any): v is TColorName => COLOR_NAMES.includes(v)
+export const isColorCode = (v?: any): v is TColorCode => COLOR_CODES.includes(v)
+export const isSynth = (v?: any): v is TSynth => CONSTANTS.SYNTHS.includes(v)
+export const isDurationChar = (v?: any): v is TDurationChar => DURATION_CHARS.includes(v)
+export const isDuration = (v?: any): v is TDuration => DURATIONS.includes(v)
+export const isIntervalChar = (v?: any): v is TIntervalChar => INTERVAL_CHARS.includes(v)
 
 type Initial = { key: string; value: any }
 type O = object
@@ -146,6 +183,7 @@ export class Text {
   static toJson = (data?: any) => JSON.stringify(data, null, 2)
   static trim = (str: string) => (Is.string(str) ? str.trim() : '')
   static join = (arr: any[], separator: string = ' ') => arr.join(separator)
+  static unical = (arr: any[]): string[] => [...new Set(arr.filter(String))].map(this.trim)
   static between = (str: string, separator: string = '\t') => `${separator} ${str} ${separator}`
   static replace = (str: string, search: string | string[] | RegExp = /\s{1,}/, replacer = ' ') => {
     if (Is.array(search)) {

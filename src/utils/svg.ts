@@ -6,10 +6,9 @@ type Word<K extends string = string> = K extends Key ? Svg[K][number] : Svg[Key]
 type File<K extends string = string> = K extends Key ? `${K}.svg` : `${string}.svg`
 type Src<K extends string = string> = { key: K; file: File<K>; words: [Word<K>]; rxp: RegExp }
 
-const toUnicalStrings = (arr: any[]) => [...new Set(arr.filter(String).map(toTrim))]
 const toFile = (s: string) => (s.endsWith('.svg') ? `${s}.svg` : s)
 const toTrim = (s: string) => (Is.string(s) ? s.toLowerCase().trim() : `${s}`)
-const toWords = (s: string): Word[] => toUnicalStrings(s.split(','))
+const toWords = (s: string): Word[] => Text.unical(s.split(','))
 const toRxp = (s: string | string[]): RegExp =>
   new RegExp((Is.array(s) ? [...s] : [s]).map((w) => `(${w.trim()})`).join('|'), 'gim')
 const toSource = (key: string): Src => {
@@ -22,10 +21,10 @@ const toSource = (key: string): Src => {
 export class SvgUtils {
   static sources: Src[] = [...Object.keys(SVG).map(toSources)] as const
 
-  static keys: Key[] = this.toUnicalStrings(this.sources.reduce((acc: Key[], { key }) => [...acc, key], []))
-  static files: File[] = this.toUnicalStrings(this.sources.reduce((acc: File[], { file }) => [...acc, file], []))
-  static words: Word[] = this.toUnicalStrings(this.sources.reduce((acc: Word[], { words }) => [...acc, ...words], []))
-  static values: Value[] = this.toUnicalStrings([...this.keys, ...this.files, ...this.words])
+  static keys: Key[] = Text.unical(this.sources.reduce((acc: Key[], { key }) => [...acc, key], []))
+  static files: File[] = Text.unical(this.sources.reduce((acc: File[], { file }) => [...acc, file], []))
+  static words: Word[] = Text.unical(this.sources.reduce((acc: Word[], { words }) => [...acc, ...words], []))
+  static values: Value[] = Text.unical([...this.keys, ...this.files, ...this.words])
 
   static isKey = (v?: any): v is Key => this.keys.includes(v)
   static isFile = (v?: any): v is File => this.files.includes(v)
