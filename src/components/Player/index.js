@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Text } from 'grommet';
-import { SYNTHS, NOTES } from '../constants';
+import { NOTES, SYNTHS } from '../../utils/constants';
 
 export const Player = () => {
   const notes = NOTES.map(v => <Button key={v} label={v} />);

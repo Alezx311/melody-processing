@@ -1,5 +1,3 @@
-import { randomInt, randomUUID } from 'crypto';
-import path from 'path';
 import * as Teoria from 'teoria';
 import * as CONSTANTS from './constants';
 import {
@@ -60,67 +58,6 @@ type TypeOf = string;
 
 const { isArray } = Array;
 const { now } = Date;
-
-export class Constants {
-  static null: Readonly<null> = null as Readonly<null>;
-  static array: Readonly<any[]> = [] as Readonly<any[]>;
-  static string: Readonly<''> = '' as Readonly<''>;
-  static number: Readonly<0> = 0 as Readonly<0>;
-  static boolean: Readonly<false> = false as Readonly<false>;
-  static object: Readonly<{}> = {} as Readonly<{}>;
-  static undefined: Readonly<undefined> = undefined as Readonly<undefined>;
-  static function: Readonly<(v?: any) => {}> = ((v?: any) => {}) as Readonly<(v?: any) => {}>;
-  static default: Readonly<null> = null as Readonly<null>;
-  static lorem: Readonly<string> = `
-      Lorem ipsum dolor sit amet,
-      consectetur adipiscing elit, sed
-      do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua.
-  ` as Readonly<string>;
-  static find(v?: any) {
-    switch (true) {
-      case v === 'null' || v === null:
-        return { value: this.lorem, key: 'lorem' };
-      case v === 'array' || isArray(v):
-        return { value: this.null, key: 'null' };
-      case v === 'lorem':
-        return { value: this.array, key: 'array' };
-      case v === 'number' || typeof v === 'number':
-        return { value: this.number, key: 'number' };
-      case v === 'boolean' || typeof v === 'boolean':
-        return { value: this.boolean, key: 'boolean' };
-      case v === 'object' || typeof v === 'object':
-        return { value: this.object, key: 'object' };
-      case v === 'function' || typeof v === 'function':
-        return { value: this.function, key: 'function' };
-      case v === 'string' || typeof v === 'string':
-        return { value: this.string, key: 'string' };
-      case v === 'undefined' || typeof v === 'undefined':
-        return { value: this.undefined, key: 'undefined' };
-      default:
-        return { value: this.default, key: 'default' };
-    }
-  }
-  static TYPE_OF_LIST = ['string', 'number', 'bigint', 'boolean', 'symbol', 'undefined', 'object', 'function'] as const;
-  static PATH_DIR = __dirname;
-  static PATH_FILE = __filename;
-  static PATH_ROOT = process.cwd();
-  static PATH_SRC = path.resolve(process.cwd(), 'src');
-  static PATH_TESTS = path.resolve(process.cwd(), '__tests__');
-  static MIN = 1;
-  static MAX = 1000;
-  static MAX_VALUE = Number.MAX_VALUE;
-  static MIN_VALUE = Number.MIN_VALUE;
-  static MAX_SAFE_VALUE = Number.MAX_SAFE_INTEGER;
-  static MIN_SAFE_VALUE = Number.MIN_SAFE_INTEGER;
-  static RANDOM_VALUE = Math.random();
-  static RANDOM_UUID = randomUUID();
-  static RANDOM_INT = randomInt(1, this.MAX);
-  static RXP_ALL = new RegExp(/.+/gim);
-  static RXP_LINE = new RegExp(/^.+$/gim);
-  static RXP_CHARS_ONLY = new RegExp(/[a-z]/gim);
-  static NUMBERS_ONLY = new RegExp(/[0-9]/gim);
-}
 
 // ? Validate types helper utils
 export class Is {
@@ -226,18 +163,26 @@ export class Text {
 
 // ? Random value helper utils
 export class Random {
+  static uuid(l: number = 10) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < l; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
   // ? Return random float value between 0 and 1
   static value = () => Math.random();
   // ? Return random boolean
   static bool = () => this.value() > 0.5;
   // ? Return random array with UUIDv4
-  static ids = () => Array(10).fill(1).map(randomUUID);
-  // ? Return random UUIDv4
-  static uuid = () => randomUUID();
+  static ids = () => Array(10).fill(1).map(Random.uuid);
   // ? Return random integer between min and max
-  static int = (min = 0, max = 100) => randomInt(min, max);
+  static int = (min = 0, max = 100) => Math.floor(Math.random() * (max - min + 1)) + min;
   // ? Return string with random character
-  static string = () => String.fromCharCode(randomInt(97, 122));
+  static string = () => String.fromCharCode(Random.int(97, 122));
   // ? Return array with provided size
   static array = (size: number = 10) => Array(size).fill(1);
   // ? Return object with uuid as key, and integer as value
@@ -271,7 +216,7 @@ export class Random {
     return [k, obj[k]];
   };
 
-  static arrayDouble = arr => [arr, arr]; //* <- Genius!
+  static arrayDouble = (arr: any[]) => [...arr, ...arr]; //* <- Genius!
   static range = () => random().toFixed(2);
   static float = (min = 0.01, max = 0.99) => (random() * (max - min) + min).toFixed(2);
   static number = (min = 1, max = 100) => ~~(random() * (max - min)) + min;
@@ -280,7 +225,7 @@ export class Random {
   static powerOfTwo = (max = 10) => 2 ** this.number(1, max);
   static numbersDeep = (len = 10, max = 4) => this.numbers(len, max).map(v => (v > 1 ? this.numbers(v, max) : v));
   static values = arr => this.array(10).map(v => this.arrayElement(arr));
-  static array = (size = 10, fill = this.boolean(20)) => Array(size).fill(fill);
+  // static array = (size = 10, fill = this.boolean(20)) => Array(size).fill(fill);
   static arrays = (size = 10, maxDeep = 5) => this.array(size).map(v => this.array(this.number(2, maxDeep)));
   static arrayPart = (arr, chance = 20) => arr.filter((v, i) => this.boolean(chance));
   static arrayGrow = (arr, growSize = 10) => [...arr, ...this.array(growSize).map((v, i) => this.arrayElement(arr))];
@@ -296,28 +241,28 @@ export class Random {
   static arrayIndex = arr => arr && this.number(0, arr.length);
   static arrayElement = arr => arr && arr[this.arrayIndex(arr)];
   static arrayDoubleSome = arr => this.arrayShuffles(arr).map(v => (this.boolean(20) ? [v, v] : v));
-  static objectKey = obj => this.arrayElement(Object.keys(obj));
-  static objectProp = obj => obj[this.objectKey(obj)];
+  // static objectKey = obj => this.arrayElement(Object.keys(obj));
+  // static objectProp = obj => obj[this.objectKey(obj)];
   static noteChar = () => this.arrayElement(NOTES);
   static octave = (min = 2, max = 4) => this.number(min, max);
   static note = (octave = this.octave()) => `${this.noteChar()}${octave}`;
-  static notes = (size = 10, octave) => this.array(size, v => this.note(octave));
+  static notes = (size = 10, octave) => Random.array(size, (v?: any) => Random.note(octave));
   static scale = () => this.arrayElement(SCALES);
   static durationChar = () => this.arrayElement(DURATION_CHARS);
   static duration = () => this.arrayElement(DURATIONS);
   static interval = () => this.arrayElement(INTERVAL_CHARS);
-  static velocity = () => 0.75 + this.range() / 3;
-  static tuningName = () => this.arrayElement(TUNING_NAMES);
-  static tuning = () => GUITAR_TUNINGS[this.tuningName()];
-  static noteValues = note => ({ note, duration: this.duration(), velocity: this.velocity() });
+  static velocity = () => 0.75 + Random.range() / 3;
+  static tuningName = () => Random.arrayElement(TUNING_NAMES);
+  static tuning = () => GUITAR_TUNINGS[Random.tuningName()];
+  static noteValues = note => ({ note, duration: Random.duration(), velocity: Random.velocity() });
   static noteParse = str => {
     let [note, char, octave = 1] = str.trim().match(/^([a-g#]+)(\d)$/i);
     return { note, char, octave };
   };
   static noteIndex = note => NOTES.indexOf(note.trim().match(/^([a-g#]+)/i)[1]);
   static noteStep = (noteChar, step = 1) => {
-    let { char, octave } = this.noteParse(noteChar);
-    let noteIndex = this.noteIndex(char);
+    let { char, octave } = Random.noteParse(noteChar);
+    let noteIndex = Random.noteIndex(char);
     let newIndex = noteIndex + step;
     const l = NOTES.length;
     if (newIndex === l) {
@@ -333,13 +278,13 @@ export class Random {
     Teoria.note(note)
       .scale(scale)
       .simple()
-      .map(char => `${char}${this.octave()}`);
+      .map(char => `${char}${Random.octave()}`);
 
   static melody = (root, scale, size) => {
-    const scaleNotes = this.getScale(root, scale);
+    const scaleNotes = Random.getScale(root, scale);
     const melody = Array(size)
       .fill(root)
-      .map(() => this.arrayElement(scaleNotes));
+      .map(() => Random.arrayElement(scaleNotes));
     return this.arrayShuffles(melody);
   };
   static noteSteps = (note, size = 24) =>
@@ -382,7 +327,7 @@ export class Source {
     return Object.keys(this.obj);
   }
   private get generateIds() {
-    return { uuid: randomUUID(), timestamp: now() };
+    return { uuid: Random.uuid(), timestamp: now() };
   }
   private updateProps(value: any = this.value, state: any = {}) {
     return Object.assign(

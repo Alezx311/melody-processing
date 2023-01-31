@@ -1,10 +1,9 @@
-import React from 'react';
-import * as Tone from 'tone';
 import { Box, Button, Card, DropButton, TableRow } from 'grommet';
-import { GUITAR_TUNINGS, INSTRUMENTS, NOTES, SCALES, SVG_FOLDER, SVG_WORDS, TUNING_NAMES } from '../constants';
-import { Random } from '../helpers';
 import { Cute } from 'react-cute';
-
+import * as Tone from 'tone';
+import { SAMPLES } from '../../utils/files';
+import { Random } from '../../utils/helpers';
+import { SvgUtils } from '../../utils/svg';
 // TODO find a way to work without global variable
 let synth;
 
@@ -27,7 +26,7 @@ export const Guitar = props => {
   );
 
   const setInstrument = instrument => {
-    const urlEntries = Object.entries(INSTRUMENTS[instrument]).map(([k, v]) => [k, `/samples/${instrument}/${v}`]);
+    const urlEntries = Object.entries(SAMPLES[instrument]).map(([k, v]) => [k, `/samples/${instrument}/${v}`]);
     const samples = Object.fromEntries(urlEntries);
     synth = new Tone.Sampler(samples).toDestination();
     reducer({ synthName: null, instrumentName: instrument });
@@ -93,10 +92,10 @@ export const Guitar = props => {
       const notes = state.riff.map(v => Random.noteValues(v));
       new Tone.Sequence((time = Tone.now(), { note, duration = Random.duration(), velocity }) => {
         const color = Random.colorHex();
-        const word = Random.arrayElement(SVG_WORDS);
+        const word = Random.arrayElement(SvgUtils.words);
         const words = Array(5)
           .fill(1)
-          .map(v => Random.arrayElement(SVG_WORDS));
+          .map(v => Random.arrayElement(SvgUtils.words));
         reducer({ word, words, color, valueOnPlay: { note, duration, velocity }, isPlaying: true });
         synth.triggerAttackRelease(note, duration, time, velocity);
       }, notes).start(1);
@@ -142,7 +141,7 @@ export const Guitar = props => {
       <DropSelect
         label="Sound Instrument"
         value={state?.instrumentName}
-        options={Object.keys(INSTRUMENTS)}
+        options={Object.keys(SAMPLES)}
         onClick={setInstrument}
       />
     </>
