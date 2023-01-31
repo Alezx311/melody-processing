@@ -1,4 +1,4 @@
-export type TNote =
+export type TNoteChar =
   | 'A'
   | 'A#'
   | 'Ab'
@@ -17,6 +17,7 @@ export type TNote =
   | 'G#'
   | 'Gb'
 
+export type TNote = `${TNoteChar}${string | number | ''}`
 export type TNoteHalfTone = '#' | 'b'
 export type TNoteWithOctave = `${TNote}${EOctave}`
 

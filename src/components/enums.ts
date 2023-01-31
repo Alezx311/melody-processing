@@ -144,40 +144,39 @@ export enum EInstrumentName {
 }
 
 export enum EOctave {
-  0,
-  1,
-  2,
-  3,
-  4,
-  6,
-  7,
-  8,
   DEFAULT = '',
+  V1 = 1,
+  V2 = 2,
+  V3 = 3,
+  V4 = 4,
+  V6 = 6,
+  V7 = 7,
+  V8 = 8,
 }
 
 export enum EGuitarString {
-  4,
-  5,
-  6,
-  7,
-  8,
   DEFAULT = 6,
+  V4 = 4,
+  V5 = 5,
+  V6 = 6,
+  V7 = 7,
+  V8 = 8,
 }
 
 export enum EGuitarFrets {
-  21,
-  24,
-  27,
   DEFAULT = 24,
+  V21 = 21,
+  V24 = 24,
+  V27 = 27,
 }
 
 export enum EMelodySize {
-  100,
-  200,
-  300,
-  400,
-  500,
-  DEFAULT = 100,
+  DEFAULT = 300,
+  V100 = 100,
+  V200 = 200,
+  V300 = 300,
+  V400 = 400,
+  V500 = 500,
 }
 
 export enum EGuitarTuningName {
@@ -188,30 +187,30 @@ export enum EGuitarTuningName {
   DEFAULT = 'E Standart',
 }
 
-export class EnumUtils {
-  static toSources = <T>(source: T, name: string) => {
-    const keys: Array<keyof T> = [...Object.keys(source)]
-    const values: Array<T[keyof T]> = [...Object.values(source)]
-    const json = JSON.stringify({ keys, values, name }, null, 2)
+// export class EnumUtils {
+//   static toSources = <T extends object>(source: T, name: string) => {
+//     const keys: Array<keyof T> = [...Object.keys(source)] as Array<keyof T>
+//     const values: Array<T[keyof T]> = [...Object.values(source)]
+//     const json = JSON.stringify({ keys, values, name }, null, 2)
 
-    const isKey = (v?: any): v is keyof T => keys.includes(v)
-    const isValue = (v?: any): v is T[keyof T] => values.includes(v)
-    const to = (v?: any) => (isKey(v) ? source[v] : isValue(v) ? v : false)
+//     const isKey = (v?: any): v is keyof T => keys.includes(v)
+//     const isValue = (v?: any): v is T[keyof T] => values.includes(v)
+//     const to = (v?: any) => (isKey(v) ? source[v] : isValue(v) ? v : false)
 
-    return { name, keys, values, json, isKey, isValue, to }
-  }
+//     return { name, keys, values, json, isKey, isValue, to }
+//   }
 
-  static TypeOf = this.toSources(ETypeOf, 'ETypeOf')
-  static TypeDesc = this.toSources(ETypeDesc, 'ETypeDesc')
-  static Note = this.toSources(ENote, 'ENote')
-  static Scale = this.toSources(EScale, 'EScale')
-  static Color = this.toSources(EColor, 'EColor')
-  static SynthName = this.toSources(ESynthName, 'ESynthName')
-  static InstrumentName = this.toSources(EInstrumentName, 'EInstrumentName')
+//   static TypeOf = this.toSources(ETypeOf, 'ETypeOf')
+//   static TypeDesc = this.toSources(ETypeDesc, 'ETypeDesc')
+//   static Note = this.toSources(ENote, 'ENote')
+//   static Scale = this.toSources(EScale, 'EScale')
+//   static Color = this.toSources(EColor, 'EColor')
+//   static SynthName = this.toSources(ESynthName, 'ESynthName')
+//   static InstrumentName = this.toSources(EInstrumentName, 'EInstrumentName')
 
-  static Octave = this.toSources(EOctave, 'EOctave')
-  static GuitarString = this.toSources(EGuitarString, 'EGuitarString')
-  static GuitarFrets = this.toSources(EGuitarFrets, 'EGuitarFrets')
-  static MelodySize = this.toSources(EMelodySize, 'EMelodySize')
-  static GuitarTuningName = this.toSources(EGuitarTuningName, 'EGuitarTuningName')
-}
+//   static Octave = this.toSources(EOctave, 'EOctave')
+//   static GuitarString = this.toSources(EGuitarString, 'EGuitarString')
+//   static GuitarFrets = this.toSources(EGuitarFrets, 'EGuitarFrets')
+//   static MelodySize = this.toSources(EMelodySize, 'EMelodySize')
+//   static GuitarTuningName = this.toSources(EGuitarTuningName, 'EGuitarTuningName')
+// }
