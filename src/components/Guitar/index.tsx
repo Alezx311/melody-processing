@@ -6,7 +6,7 @@ import { Constants } from '../../utils/constants'
 import { SAMPLES } from '../../utils/files'
 import { Random } from '../../utils/helpers'
 import { IState, TInstrumentName } from '../../utils/interfaces'
-import { SvgUtils } from '../../utils/svg'
+import { SVG_WORDS } from '../../utils/svg'
 
 // TODO find a way to work without global variable
 let synth: Tone.Synth | Tone.Sampler
@@ -120,11 +120,11 @@ export const Guitar = ({ state, reducer }: { state: IState; reducer: StateReduce
       const notes = state.riff.map(v => Random.noteValues(v))
       new Tone.Sequence((time = Tone.now(), { note, duration = Random.duration(), velocity }) => {
         const color = Random.colorHex()
-        const word = Random.arrayElement(SvgUtils.WORDS)
-        const words = Array(5)
-          .fill(1)
-          .map(v => Random.arrayElement(SvgUtils.WORDS))
-        reducer({ word, words, color, valueOnPlay: { note, duration, velocity }, isPlaying: true })
+        // const word = Random.arrayElement(SVG_WORDS)
+        // const words = Array(5)
+        //   .fill(1)
+        //   .map(v => Random.arrayElement(SVG_WORDS))
+        reducer({ word: '', words: [], color, valueOnPlay: { note, duration, velocity }, isPlaying: true })
         synth.triggerAttackRelease(note, duration, time, velocity)
       }, notes).start(1)
       Tone.Transport.set(playOptions)
