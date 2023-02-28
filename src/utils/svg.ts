@@ -1,5 +1,5 @@
 import { SVG } from './files'
-import { isString, isArray, Text } from './helpers'
+import { isString, Text } from './helpers'
 import { ISvg } from './interfaces'
 
 type Keys = keyof ISvg
@@ -11,12 +11,11 @@ type Src<K = Keys> = { key: K; file: File<K>; words: [Word<K>]; rxp: RegExp }
 const toFile = (s: string) => (s.endsWith('.svg') ? `${s}.svg` : s)
 const toTrim = (s: string) => (isString(s) ? s.toLowerCase().trim() : `${s}`)
 const toWords = (s: string): string[] => Text.unical(s.split(','))
-const toRxp = (s: string | string[]): RegExp =>
-  new RegExp((isArray(s) ? [...s] : [s]).map(w => `(${w.trim()})`).join('|'), 'gim')
+const toRxp = (s: string): RegExp => new RegExp(s, 'gim')
 const toSource = (key: string): Src => {
-  const file = toFile(key)
-  const words = toWords(key)
-  const rxp = toRxp(words)
+  const file = key.replace(/\s+/gim, ' ') + '.svg'
+  const words = [...new Set(key.split(' '))]
+  const rxp = new RegExp(words.join('|'), 'gim')
   return { key, file, words, rxp } as Src
 }
 

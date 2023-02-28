@@ -98,7 +98,7 @@ export const isString = (v?: any): v is string => typeof v === 'string'
 export const isNumber = (v?: any): v is number => typeof v === 'number'
 export const isBoolean = (v?: any): v is boolean => typeof v === 'boolean'
 export const isFunction = (v?: any): v is Function => typeof v === 'function'
-export const isArray = (v?: any): v is any[] => isArray(v)
+export const isArray = (v?: any): v is Array<any> => Array.isArray(v)
 export const isObject = (v?: any): v is object => typeof v === 'object' && v !== null && Object.keys(v).length > 0
 export const isLen = (v?: any): v is { length: number } => isExist(v?.length) && v?.length > 0
 export const isIn = <T = any>(element: T, arr: any[]) => isArray(arr) && arr.includes(element)
