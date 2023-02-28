@@ -1,12 +1,11 @@
 import { Box, Button, Card, DropButton, TableRow } from 'grommet'
 import { Cute } from 'react-cute'
-import * as Tone from 'tone'
 import { StateReducer } from '..'
 import { Constants } from '../../utils/constants'
 import { SAMPLES } from '../../utils/files'
 import { Random } from '../../utils/helpers'
 import { IState, TInstrumentName } from '../../utils/interfaces'
-import { SVG_WORDS } from '../../utils/svg'
+import * as Tone from 'tone'
 
 // TODO find a way to work without global variable
 let synth: Tone.Synth | Tone.Sampler
@@ -82,29 +81,29 @@ export const Guitar = ({ state, reducer }: { state: IState; reducer: StateReduce
     </>
   )
 
-  const BlissWords = ({ src }: { src: string[] }) => (
-    <table>
-      <tr>
-        {src.map(word => (
-          <td key={`label_${word}`}>
-            <p>{word}</p>
-          </td>
-        ))}
-      </tr>
-      <tr>
-        {src.map(word => (
-          <td key={`image_${word}`}>
-            <SvgImage src={`${Constants.SVG}/${word}.svg`} />
-          </td>
-        ))}
-      </tr>
-    </table>
-  )
+  // const BlissWords = ({ src }: { src: string[] }) => (
+  //   <table>
+  //     <tr>
+  //       {src.map(word => (
+  //         <td key={`label_${word}`}>
+  //           <p>{word}</p>
+  //         </td>
+  //       ))}
+  //     </tr>
+  //     <tr>
+  //       {src.map(word => (
+  //         <td key={`image_${word}`}>
+  //           <SvgImage src={`${Constants.SVG}/${word}.svg`} />
+  //         </td>
+  //       ))}
+  //     </tr>
+  //   </table>
+  // )
 
   const RiffView = () => (
     <Box>
       <SvgImage src={`${state.word}.svg`} />
-      <BlissWords src={state.words} />
+      {/* <BlissWords src={state.words} /> */}
       <Cute json={state.valueOnPlay} />
     </Box>
   )
