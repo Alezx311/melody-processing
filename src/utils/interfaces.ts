@@ -1,75 +1,75 @@
-// export interface IState {
-//   word: string
-//   words: string[]
-//   color: TColor
-//   content: any[]
-//   strings: TGuitarString
-//   frets: TGuitarFrets
-//   tuning: TTuningName
-//   rootNote: TNote
-//   scale: TScale
-//   size: TMelodySize
-//   riff: any[]
-//   synth: any
-//   synthName: TSynthName
-//   instrumentName: TInstrumentName
-//   isPlaying: boolean
-//   valueOnPlay: any
-// }
+import { Constants } from './constants'
+
+export type TTypeof = (typeof Constants.TYPEOF)[number]
+export type TTypeDesc = (typeof Constants.TYPEDESC)[number]
+export type TOctave = (typeof Constants.OCTAVES)[number]
+export type TGuitarString = (typeof Constants.GUITAR_STRINGS)[number]
+export type TGuitarFret = (typeof Constants.GUITAR_FRETS)[number]
+export type TMelodySize = (typeof Constants.MELODY_SIZES)[number]
+export type TNoteChar = (typeof Constants.NOTE_CHARS)[number]
+export type TNote = (typeof Constants.NOTES)[number]
+export type TScale = (typeof Constants.SCALES)[number]
+export type TColor = (typeof Constants.COLORS)[number]
+export type TSynthName = (typeof Constants.SYNTH_NAMES)[number]
+export type TInstrumentName = (typeof Constants.INSTRUMENT_NAMES)[number]
+export type TTuningName = (typeof Constants.TUNING_NAMES)[number]
+export type TColorClassname = (typeof Constants.COLOR_CLASSNAMES)[number]
+export type TColorName = (typeof Constants.COLOR_NAMES)[number]
+export type TColorCode = (typeof Constants.COLOR_CODES)[number]
+export type TDurationChar = (typeof Constants.DURATION_CHARS)[number]
+export type TDuration = (typeof Constants.DURATIONS)[number]
+export type TIntervalChar = (typeof Constants.INTERVAL_CHARS)[number]
 
 export interface IConstants {
-  TYPEOF: string[]
-  TYPEDESC: string[]
-  OCTAVES: number[]
-  GUITAR_STRINGS: number[]
-  GUITAR_FRETS: number[]
-  MELODY_SIZES: number[]
-  NOTE_CHARS: string[]
-  NOTES: string[][]
-  SCALES: string[]
-  COLORS: string[]
-  SYNTH_NAMES: string[]
-  INSTRUMENT_NAMES: string[]
-  TUNING_NAMES: string[]
-  COLOR_CLASSNAMES: string[]
-  COLOR_NAMES: string[]
-  COLOR_CODES: string[]
-  DURATION_CHARS: string[]
-  DURATIONS: string[]
-  INTERVAL_CHARS: string[]
-  GUITAR_TUNINGS: IGuitarTunings
+  TYPEOF: TTypeof
+  TYPEDESC: TTypeDesc
+  OCTAVES: TOctave
+  GUITAR_STRINGS: TGuitarString
+  GUITAR_FRETS: TGuitarFret
+  MELODY_SIZES: TMelodySize
+  NOTE_CHARS: TNoteChar
+  NOTES: TNote
+  SCALES: TScale
+  COLORS: TColor
+  SYNTH_NAMES: TSynthName
+  INSTRUMENT_NAMES: TInstrumentName
+  TUNING_NAMES: TTuningName
+  COLOR_CLASSNAMES: TColorClassname
+  COLOR_NAMES: TColorName
+  COLOR_CODES: TColorCode
+  DURATION_CHARS: TDurationChar
+  DURATIONS: TDuration
+  INTERVAL_CHARS: TIntervalChar
+  GUITAR_TUNINGS: IGuitarTuning
   INITIAL_STATE: IState
 }
 
-interface IState {
+export interface IState {
   word: string
   words: any[]
-  color: string
+  color: TColor
   content: any[]
-  strings: number
-  frets: number
-  tuning: string
-  rootNote: string[]
-  scale: string
-  size: number
+  strings: TGuitarString
+  frets: TGuitarFret
+  tuning: TTuningName
+  rootNote: TNote
+  scale: TScale
+  size: TMelodySize
   riff: any[]
   synth: boolean
-  synthName: string
-  instrumentName: string
+  synthName: TSynthName
+  instrumentName: TInstrumentName
   isPlaying: boolean
   valueOnPlay: {}
-  SAMPLES: SAMPLES
-  SVG: SVG
+  // SAMPLES: SAMPLES
+  // SVG: SVG
 }
 
-interface IGuitarTunings {
-  'E Standart': string[]
-  'Drop B': string[]
-  'Drop C': string[]
-  'Drop D': string[]
+export type IGuitarTuning = {
+  [k in TTuningName]: TNote[]
 }
 
-interface SVG {
+export interface ISvg {
   'ability_(half_sized)': string[]
   'abortion_(induced)': string[]
   'Abraham': string[]
@@ -6013,7 +6013,7 @@ interface SVG {
   'Z_(uppercase)': string[]
 }
 
-interface SAMPLES {
+export interface ISamples {
   'bass-electric': Basselectric
   'bassoon': Bassoon
   'cello': Cello

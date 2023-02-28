@@ -1,9 +1,11 @@
-import { writeFileSync } from 'fs'
-import { isKeyObject } from 'util/types'
+// import { writeFileSync } from 'fs'
 import { SAMPLES, SVG } from './files'
+import { IState, TNote, TOctave, TTuningName } from './interfaces'
 
-type Key = string | number
-type R = Record<string, any>
+export type Key = string | number
+export type R = Record<string, any>
+
+const isObject = (v: any): v is R => typeof v === 'object' && v !== null
 
 type ToDesc<T> = T extends { desc: infer Desc }
   ? Desc
@@ -40,8 +42,9 @@ type ToDesc<T> = T extends { desc: infer Desc }
   : 'Any'
 
 export class Constants {
-  public static TYPEOF = ['string', 'number', 'boolean', 'object', 'symbol', 'bigint', 'undefined']
-  public static TYPEDESC = [
+  static readonly TYPEOF = ['string', 'number', 'boolean', 'object', 'symbol', 'bigint', 'undefined'] as const
+
+  static readonly TYPEDESC = [
     'null',
     'string',
     'number',
@@ -54,12 +57,17 @@ export class Constants {
     'unknown',
     'any',
     'never',
-  ]
-  public static OCTAVES = [1, 2, 3, 4, 6, 7, 8]
-  public static GUITAR_STRINGS = [6, 4, 5, 6, 7, 8]
-  public static GUITAR_FRETS = [24, 21, 24, 27]
-  public static MELODY_SIZES = [100, 200, 300, 400, 500]
-  public static NOTE_CHARS = [
+  ] as const
+
+  static readonly OCTAVES = [1, 2, 3, 4, 6, 7, 8] as const
+
+  static readonly GUITAR_STRINGS = [6, 4, 5, 6, 7, 8] as const
+
+  static readonly GUITAR_FRETS = [24, 21, 24, 27] as const
+
+  static readonly MELODY_SIZES = [100, 200, 300, 400, 500] as const
+
+  static readonly NOTE_CHARS = [
     'A',
     'B',
     'C',
@@ -77,12 +85,14 @@ export class Constants {
     'D#',
     'E#',
     'G#',
-  ]
+  ] as const
 
-  public static NOTES = [
-    ...Constants.NOTE_CHARS.map(noteChar => Constants.OCTAVES.map(octave => `${noteChar}${octave}`)),
-  ]
-  public static SCALES = [
+  public static readonly NOTES = Constants.NOTE_CHARS.reduce((acc: string[], noteChar: string) => {
+    const mixed = Constants.OCTAVES.reduce((acc2: string[], octave: TOctave) => [...acc2, `${noteChar}${octave}`], [])
+    return [...acc, ...mixed]
+  }, [])
+
+  public static readonly SCALES = [
     'minorpentatonic',
     'major',
     'minor',
@@ -102,8 +112,8 @@ export class Constants {
     'harmonicminor',
     'melodicminor',
     'wholetone',
-  ]
-  public static COLORS = [
+  ] as const
+  public static readonly COLORS = [
     'primary',
     'secondary',
     'success',
@@ -139,8 +149,8 @@ export class Constants {
     '#3c00ff',
     '#a800ff',
     '#ff00fd',
-  ]
-  public static SYNTH_NAMES = [
+  ] as const
+  public static readonly SYNTH_NAMES = [
     'PolySynth',
     'AMSynth',
     'FMSynth',
@@ -152,8 +162,8 @@ export class Constants {
     'PluckSynth',
     'Synth',
     'Synth',
-  ]
-  public static INSTRUMENT_NAMES = [
+  ] as const
+  public static readonly INSTRUMENT_NAMES = [
     'piano',
     'bass-electric',
     'bassoon',
@@ -174,9 +184,9 @@ export class Constants {
     'tuba',
     'violin',
     'xylophone',
-  ]
-  public static TUNING_NAMES = ['E Standart', 'Drop B', 'Drop C', 'Drop D']
-  public static COLOR_CLASSNAMES = [
+  ] as const
+  public static readonly TUNING_NAMES = ['E Standart', 'Drop B', 'Drop C', 'Drop D'] as const
+  public static readonly COLOR_CLASSNAMES = [
     'primary',
     'secondary',
     'success',
@@ -188,9 +198,20 @@ export class Constants {
     'body',
     'white',
     'transparent',
-  ]
-  public static COLOR_NAMES = ['blue', 'indigo', 'purple', 'pink', 'red', 'orange', 'yellow', 'green', 'teal', 'cyan']
-  public static COLOR_CODES = [
+  ] as const
+  public static readonly COLOR_NAMES = [
+    'blue',
+    'indigo',
+    'purple',
+    'pink',
+    'red',
+    'orange',
+    'yellow',
+    'green',
+    'teal',
+    'cyan',
+  ] as const
+  public static readonly COLOR_CODES = [
     '#81d700',
     '#ff0000',
     '#ff4e00',
@@ -204,20 +225,20 @@ export class Constants {
     '#3c00ff',
     '#a800ff',
     '#ff00fd',
-  ]
-  public static DURATION_CHARS = ['n', '+', '.', '@']
-  public static DURATIONS = ['4n', '@4n', '.4n', '8n']
-  public static INTERVAL_CHARS = ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7']
+  ] as const
+  public static readonly DURATION_CHARS = ['n', '+', '.', '@'] as const
+  public static readonly DURATIONS = ['4n', '@4n', '.4n', '8n'] as const
+  public static readonly INTERVAL_CHARS = ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'] as const
 
   // ! =====> Object values <======
-  public static GUITAR_TUNINGS = {
+  public static readonly GUITAR_TUNINGS = {
     'E Standart': ['E2', 'A2', 'D3', 'G3', 'B4', 'E4'],
     'Drop B': ['B2', 'F#2', 'B3', 'E3', 'G#3', 'C#4'],
     'Drop C': ['C2', 'G2', 'C3', 'F3', 'A4', 'D4'],
     'Drop D': ['D2', 'A2', 'D3', 'G3', 'B4', 'E4'],
-  }
+  } as Readonly<{ [k in TTuningName]: TNote[] }>
 
-  public static INITIAL_STATE = {
+  public static readonly INITIAL_STATE: IState = {
     word: '',
     words: [],
     color: this.COLORS[0],
@@ -236,8 +257,8 @@ export class Constants {
     valueOnPlay: {},
   }
 
-  public static SAMPLES = SAMPLES
-  public static SVG = SVG
+  public static readonly SAMPLES = SAMPLES
+  public static readonly SVG = SVG
 
   static toKeys() {
     const keys = Object.keys(Constants)
@@ -246,7 +267,7 @@ export class Constants {
   }
 
   static findProps<T extends Record<string, unknown>, P extends any[]>(obj: T, props: P) {
-    const objProps = isKeyObject(obj) ? (Object.keys(obj) as (keyof T)[]) : []
+    const objProps = isObject(obj) ? (Object.keys(obj) as (keyof T)[]) : []
     const finded = props.filter(k => objProps.includes(k)) as (P extends keyof T ? P : never)[]
     const result = finded.reduce((acc, k) => ({ ...acc, [k]: obj[k] }), {})
   }
@@ -254,10 +275,10 @@ export class Constants {
   static toJson() {
     return JSON.stringify(Constants, undefined, 2)
   }
-  static toJsonFile(filepath: string) {
-    const keys = Object.entries(Constants).filter(([k, v]) => k === k.toUpperCase() && typeof v !== 'function')
-    writeFileSync('constants.json', Constants.toJson())
-  }
+  // static toJsonFile(filepath: string) {
+  //   const keys = Object.entries(Constants).filter(([k, v]) => k === k.toUpperCase() && typeof v !== 'function')
+  //   writeFileSync('constants.json', Constants.toJson())
+  // }
 }
 
-writeFileSync('constants.json', JSON.stringify({ ...Constants }, null, 2))
+// writeFileSync('constants.json', JSON.stringify({ ...Constants }, null, 2))

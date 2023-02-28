@@ -1,4 +1,4 @@
-export const SOLRESOL_CHARS = {
+export const SOLRESOL = {
   c: 'do',
   d: 're',
   e: 'mi',
@@ -6,9 +6,6 @@ export const SOLRESOL_CHARS = {
   g: 'sol',
   a: 'la',
   b: 'si',
-}
-
-export const SOLRESOL_DICT = {
   do: 'no, not, nor',
   re: 'and',
   mi: 'or',
@@ -312,4 +309,11 @@ export const SOLRESOL_DICT = {
   silafa: 'unable, unfit, incapable, inept',
   silasol: 'down, descent, go down',
   silasi: 'medal, medallio',
-}
+} as const
+
+export type Solresol = typeof SOLRESOL
+export type KSolresol = keyof Solresol
+export type VSolresol<K extends string = KSolresol> = K extends KSolresol ? Solresol[K] : undefined
+
+export const SOLRESOL_KEYS = Object.keys(SOLRESOL) as KSolresol[]
+export const SOLRESOL_VALUES = Object.values(SOLRESOL) as VSolresol[]
