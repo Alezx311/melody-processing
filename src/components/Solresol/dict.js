@@ -6,7 +6,7 @@ export const SOLRESOL_CHARS = {
   g: 'sol',
   a: 'la',
   b: 'si',
-};
+}
 
 export const SOLRESOL_DICT = {
   do: 'no, not, nor',
@@ -312,4 +312,4 @@ export const SOLRESOL_DICT = {
   silafa: 'unable, unfit, incapable, inept',
   silasol: 'down, descent, go down',
   silasi: 'medal, medallio',
-};
+}
