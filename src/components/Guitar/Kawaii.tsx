@@ -1,7 +1,5 @@
 import * as ReactKawaii from 'react-kawaii'
-import { Constants } from '../../utils/constants'
 import { Random } from '../../utils/helpers'
-
 
 export const MOODS = ['sad', 'shocked', 'happy', 'blissful', 'lovestruck', 'excited', 'ko']
 

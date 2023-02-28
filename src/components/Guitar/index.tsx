@@ -120,10 +120,10 @@ export const Guitar = ({ state, reducer }: { state: IState; reducer: StateReduce
       const notes = state.riff.map(v => Random.noteValues(v))
       new Tone.Sequence((time = Tone.now(), { note, duration = Random.duration(), velocity }) => {
         const color = Random.colorHex()
-        const word = Random.arrayElement(SvgUtils.words)
+        const word = Random.arrayElement(SvgUtils.WORDS)
         const words = Array(5)
           .fill(1)
-          .map(v => Random.arrayElement(SvgUtils.words))
+          .map(v => Random.arrayElement(SvgUtils.WORDS))
         reducer({ word, words, color, valueOnPlay: { note, duration, velocity }, isPlaying: true })
         synth.triggerAttackRelease(note, duration, time, velocity)
       }, notes).start(1)

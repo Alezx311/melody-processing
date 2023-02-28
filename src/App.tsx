@@ -1,7 +1,6 @@
-import logo from './logo.svg'
+import { Grommet } from 'grommet'
 import './App.css'
 import { Main } from './components'
-import { Grommet } from 'grommet'
 
 // const InitialDiv = () => {
 //   return (

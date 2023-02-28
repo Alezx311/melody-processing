@@ -1,16 +1,18 @@
 import { SVG } from './files'
+import { isString, isArray, Text } from './helpers'
+import { ISvg } from './interfaces'
 
-type Svg = typeof SVG
-type Key = keyof Svg
-type Word<K extends string = string> = K extends Key ? Svg[K][number] : Svg[Key][number]
-type File<K extends string = string> = K extends Key ? `${K}.svg` : `${string}.svg`
-type Src<K extends string = string> = { key: K; file: File<K>; words: [Word<K>]; rxp: RegExp }
+type Keys = keyof ISvg
+type KSvg<K = any> = K extends Keys ? K : Keys
+type Word<K = any> = ISvg[KSvg<K>][number]
+type File<K = any> = `${KSvg<K>}.svg`
+type Src<K = Keys> = { key: K; file: File<K>; words: [Word<K>]; rxp: RegExp }
 
 const toFile = (s: string) => (s.endsWith('.svg') ? `${s}.svg` : s)
-const toTrim = (s: string) => (Is.string(s) ? s.toLowerCase().trim() : `${s}`)
-const toWords = (s: string): Word[] => Text.unical(s.split(','))
+const toTrim = (s: string) => (isString(s) ? s.toLowerCase().trim() : `${s}`)
+const toWords = (s: string): string[] => Text.unical(s.split(','))
 const toRxp = (s: string | string[]): RegExp =>
-  new RegExp((Is.array(s) ? [...s] : [s]).map(w => `(${w.trim()})`).join('|'), 'gim')
+  new RegExp((isArray(s) ? [...s] : [s]).map(w => `(${w.trim()})`).join('|'), 'gim')
 const toSource = (key: string): Src => {
   const file = toFile(key)
   const words = toWords(key)
@@ -18,23 +20,29 @@ const toSource = (key: string): Src => {
   return { key, file, words, rxp } as Src
 }
 
+const SVG_SOURCES = Object.keys({ ...SVG }).map(el => toSource(el)) as Src[]
+const SVG_KEYS = SVG_SOURCES.reduce((acc: Keys[], src: Src) => [...acc, src.key], []) as KSvg[]
+const SVG_FILES = SVG_SOURCES.reduce((acc: File[], src: Src) => [...acc, src.file], []) as File[]
+const SVG_WORDS = SVG_SOURCES.reduce((acc: Word[], src: Src) => [...acc, ...src.words], []) as Word[]
+const SVG_VALUES = Text.unical([...SVG_KEYS, ...SVG_FILES, ...SVG_WORDS])
+
 export class SvgUtils {
-  static sources: Src[] = [...Object.keys(SVG).map(toSources)] as const
+  public static SOURCES = SVG_SOURCES
+  public static KEYS = SVG_KEYS
+  public static FILES = SVG_FILES
+  public static WORDS = SVG_WORDS
+  public static VALUES = SVG_VALUES
 
-  static keys: Key[] = Text.unical(this.sources.reduce((acc: Key[], { key }) => [...acc, key], []))
-  static files: File[] = Text.unical(this.sources.reduce((acc: File[], { file }) => [...acc, file], []))
-  static words: Word[] = Text.unical(this.sources.reduce((acc: Word[], { words }) => [...acc, ...words], []))
-  static values: Value[] = Text.unical([...this.keys, ...this.files, ...this.words])
+  public static isKey = (v?: any): v is Keys => SVG_KEYS.includes(v)
+  public static isFile = (v?: any): v is File => SVG_FILES.includes(v)
+  public static isWord = (v?: any): v is Word => SVG_WORDS.includes(v)
+  public static isValue = (v?: any): v is Keys | Word | File => SVG_VALUES.includes(v)
 
-  static isKey = (v?: any): v is Key => this.keys.includes(v)
-  static isFile = (v?: any): v is File => this.files.includes(v)
-  static isWord = (v?: any): v is Word => this.words.includes(v)
-  static isValue = (v?: any): v is Key | Word | File => this.values.includes(v)
+  public static findByRxp = (v?: any) => isString(v) && SVG_SOURCES.find(({ rxp }) => rxp.test(v))
+  public static findByKey = (v?: any) => SvgUtils.isKey(v) && SVG_SOURCES.find(({ key }) => key === v)
+  public static findByFile = (v?: any) => SvgUtils.isFile(v) && SVG_SOURCES.find(({ file }) => file === v)
+  public static findByWord = (v?: any) => SvgUtils.isWord(v) && SVG_SOURCES.find(({ words }) => words.includes(v))
 
-  static findByRxp = (v?: any) => Is.string(v) && this.sources.find(({ rxp }) => rxp.test(v))
-  static findByKey = (v?: any) => this.isKey(v) && this.sources.find(({ key }) => key === v)
-  static findByFile = (v?: any) => this.isFile(v) && this.sources.find(({ file }) => file === v)
-  static findByWord = (v?: any) => this.isWord(v) && this.sources.find(({ words }) => words.includes(v))
-
-  static find = (v?: any) => this.findByRxp(v) || this.findByKey(v) || this.findByFile(v) || this.findByWord(v)
+  public static find = (v?: any) =>
+    SvgUtils.findByRxp(v) || SvgUtils.findByKey(v) || SvgUtils.findByFile(v) || SvgUtils.findByWord(v)
 }
