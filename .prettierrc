@@ -3,11 +3,11 @@
   "trailingComma": "all",
   "printWidth": 120,
   "endOfLine": "auto",
-  "semi": true,
+  "semi": false,
   "proseWrap": "always",
   "useTabs": false,
   "tabWidth": 2,
-  "quoteProps": "as-needed",
+  "quoteProps": "consistent",
   "bracketSameLine": true,
   "bracketSpacing": true,
   "arrowParens": "avoid"
