@@ -7,7 +7,7 @@
   "proseWrap": "always",
   "useTabs": false,
   "tabWidth": 2,
-  "quoteProps": "preserve",
+  "quoteProps": "consistent",
   "bracketSameLine": true,
   "bracketSpacing": true,
   "arrowParens": "avoid"
